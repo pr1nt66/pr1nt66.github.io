@@ -2,48 +2,146 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Cifrador</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cifrador Multicapa</title>
   <style>
-    body {  margin: 20px; background: #adcfcf; }
-    h1 { text-align: center; }
-    h3 { margin-top: 20px; color: #333; }
-    hr { margin: 30px 0; border: 1px solid #999; }
-    textarea { width: 100%; height: 70px; border: 1px solid #000000 }
-    .output { background: #f7f7f7; padding: 30px; border: 1px solid #000000; margin-top: 10px; word-wrap: break-word}
-    button { margin: 5px; padding: 10px 50px; background: #7a7272; border: 0px; color: white; cursor: pointer; }
-    button:hover { background: #5a5252; }
-    input[type="password"] { padding: 5px; width: 300px; }
+    :root {
+      --primary: #2647d8;
+      --primary-hover: #4f46e5;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f1f5f9;
+      --accent: #2647d8;
+    }
+
+    body { 
+      font-family: 'Segoe UI', system-ui, sans-serif; 
+      margin: 0; 
+      padding: 20px; 
+      background-color: var(--bg); 
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    h1 { text-align: center; color: var(--primary); font-weight: 800; letter-spacing: -1px; }
+    
+    .card {
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      margin-bottom: 25px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    h3 { margin-top: 0; color: var(--accent); font-size: 1.2rem; }
+
+    label { display: block; margin-bottom: 8px; font-size: 0.9rem; opacity: 0.8; }
+
+    textarea, input[type="password"] { 
+      width: 100%; 
+      padding: 12px; 
+      border-radius: 8px; 
+      border: 1px solid #334155; 
+      background: #0f172a; 
+      color: white; 
+      box-sizing: border-box;
+      margin-bottom: 15px;
+      font-family: inherit;
+      transition: border 0.3s;
+    }
+
+    textarea:focus, input:focus { border-color: var(--primary); outline: none; }
+
+    .actions { display: flex; gap: 10px; }
+
+    button { 
+      flex: 1;
+      padding: 12px; 
+      background: var(--primary); 
+      border: 0; 
+      color: white; 
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer; 
+      transition: transform 0.1s, background 0.2s;
+    }
+
+    button:hover { background: var(--primary-hover); }
+    button:active { transform: scale(0.98); }
+    
+    button.secondary { background: #475569; }
+
+    .output-container { position: relative; }
+
+    .output { 
+      background: #000000; 
+      padding: 20px; 
+      border-radius: 8px; 
+      border: 1px solid var(--primary); 
+      min-height: 60px;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #10b981;
+      white-space: pre-wrap;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      font-size: 0.7rem;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid var(--primary);
+      width: auto;
+      flex: none;
+    }
   </style>
 </head>
 
 <body>
-  <h1>CIFRADOR MULTICAPA</h1>
-  
-  <h3>Para Cifrar:</h3>
-  <label>Mensaje a cifrar:</label><br>
-  <textarea id="mensaje" placeholder="Escribe aquí tu mensaje"></textarea><br>
-  
-  <label>Contraseña:</label><br>
-  <input type="password" id="password"><br><br>
-  
-  <button onclick="cifrar()">Cifrar</button>
-  
-  <hr>
-  
-  <h3>Para Descifrar:</h3>
-  <label>Mensaje cifrado (pega el JSON aquí):</label><br>
-  <textarea id="mensajeCifrado" placeholder='{"salt":"...","iv":"...","datos":"..."}'></textarea><br>
-  
-  <label>Contraseña:</label><br>
-  <input type="password" id="passwordDescifrar"><br><br>
-  
-  <button onclick="descifrar()">Descifrar</button>
-  
-  <hr>
-  
-  <h3>Resultado:</h3>
-  <div class="output" id="resultado">Aquí aparecerá el resultado</div>
-  
+  <div class="container">
+    <h1>CIFRADOR MULTICAPA</h1>
+    
+    <div class="card">
+      <h3> Cifrar Mensaje</h3>
+      <label>Mensaje original:</label>
+      <textarea id="mensaje" placeholder="Escribe tu mensaje secreto aquí..."></textarea>
+      
+      <label>Contraseña de cifrado:</label>
+      <input type="password" id="password" placeholder="Usa una clave fuerte">
+      
+      <button onclick="cifrar()">Generar Cifrado</button>
+    </div>
+
+    <div class="card">
+      <h3> Descifrar Mensaje</h3>
+      <label>Código JSON cifrado:</label>
+      <textarea id="mensajeCifrado" placeholder='Ejemplo: {"salt":"...","iv":"...","datos":"..."}'></textarea>
+      
+      <label>Contraseña de descifrado:</label>
+      <input type="password" id="passwordDescifrar" placeholder="Introduce la clave">
+      
+      <button onclick="descifrar()" class="secondary">Descifrar</button>
+    </div>
+
+    <div class="card">
+      <h3> Resultado</h3>
+      <div class="output-container">
+        <button class="copy-btn" onclick="copiarAlPortapapeles()">Copiar</button>
+        <div class="output" id="resultado">Los resultados aparecerán aquí...</div>
+      </div>
+    </div>
+  </div>
+
   <script>
     function arrayToBase64(array) {
       return btoa(String.fromCharCode.apply(null, array));
@@ -106,95 +204,57 @@
       try {
         const mensaje = document.getElementById("mensaje").value;
         const password = document.getElementById("password").value;
-        
-        if (!mensaje) {
-          alert("Por favor ingresa un mensaje");
-          return;
-        }
-        if (!password) {
-          alert("Por favor ingresa una contraseña");
-          return;
-        }
+        if (!mensaje || !password) { alert("Rellena todos los campos"); return; }
 
         const enc = new TextEncoder();
         let datos = enc.encode(mensaje);
-
         const salt = crypto.getRandomValues(new Uint8Array(16));
         const clave = await derivarClave(password, salt, 32);
 
         datos = xor(datos, clave);
-
         datos = sustitucion(datos, clave);
-
         const aes = await cifrarAES(datos, clave);
-        datos = aes.datos;
-
+        
         const resultado = {
           salt: arrayToBase64(salt),
           iv: arrayToBase64(aes.iv),
-          datos: arrayToBase64(datos)
+          datos: arrayToBase64(aes.datos)
         };
 
         document.getElementById("resultado").innerText = JSON.stringify(resultado, null, 2);
       } catch (error) {
-        document.getElementById("resultado").innerText = "Error al cifrar: " + error.message;
+        document.getElementById("resultado").innerText = "Error: " + error.message;
       }
     }
+
     async function descifrar() {
       try {
         const password = document.getElementById("passwordDescifrar").value;
-        let mensajeCifrado = document.getElementById("mensajeCifrado").value.trim();
-        
-        if (!password) {
-          alert("Por favor ingresa la contraseña");
-          return;
-        }
-        
-        if (!mensajeCifrado) {
-          alert("Por favor pega el mensaje cifrado");
-          return;
-        }
+        let input = document.getElementById("mensajeCifrado").value.trim();
+        if (!password || !input) { alert("Ingresa clave y mensaje cifrado"); return; }
 
-        mensajeCifrado = mensajeCifrado.replace(/\n\s*/g, '').replace(/\s+/g, ' ').trim();
-        
-        const startIdx = mensajeCifrado.indexOf('{');
-        const endIdx = mensajeCifrado.lastIndexOf('}');
-        if (startIdx !== -1 && endIdx !== -1) {
-          mensajeCifrado = mensajeCifrado.substring(startIdx, endIdx + 1);
-        }
-
-        const paquete = JSON.parse(mensajeCifrado);
-
-        if (!paquete.salt || !paquete.iv || !paquete.datos) {
-          throw new Error("El mensaje cifrado no tiene el formato correcto. Debe contener: salt, iv y datos");
-        }
-
+        const paquete = JSON.parse(input);
         const salt = base64ToArray(paquete.salt);
         const iv = base64ToArray(paquete.iv);
         const datos = base64ToArray(paquete.datos);
 
         const clave = await derivarClave(password, salt, 32);
-
         let descifrado = await descifrarAES(datos, clave, iv);
-
         descifrado = inversaSustitucion(descifrado, clave);
-
         descifrado = xor(descifrado, clave);
 
-        const dec = new TextDecoder();
-        document.getElementById("resultado").innerText = dec.decode(descifrado);
+        document.getElementById("resultado").innerText = new TextDecoder().decode(descifrado);
       } catch (error) {
-        let errorMsg = "Error al descifrar: " + error.message;
-        
-        if (error.message.includes("JSON")) {
-          errorMsg += "\n\n El formato del mensaje cifrado no es válido.";
-          errorMsg += "\nDebe ser un JSON como: {\"salt\":\"...\",\"iv\":\"...\",\"datos\":\"...\"}";
-        } else if (error.message.includes("decrypt")) {
-          errorMsg = "Error al descifrar: La contraseña es incorrecta";
-        }
-        
-        document.getElementById("resultado").innerText = errorMsg;
+        document.getElementById("resultado").innerText = "Error: Contraseña incorrecta o formato inválido";
       }
+    }
+
+    function copiarAlPortapapeles() {
+      const texto = document.getElementById("resultado").innerText;
+      navigator.clipboard.writeText(texto);
+      const btn = document.querySelector('.copy-btn');
+      btn.innerText = "¡Copiado!";
+      setTimeout(() => btn.innerText = "Copiar", 2000);
     }
   </script>
 </body>
