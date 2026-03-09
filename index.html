@@ -1,0 +1,686 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cifrador Multicapa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --primary: #2647d8;
+      --primary-hover: #4f46e5;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f1f5f9;
+      --accent: #2647d8;
+      --green: #10b981;
+      --red: #ef4444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(38,71,216,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(38,71,216,0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #authScreen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      background: var(--bg);
+      padding: 20px;
+    }
+
+    #authScreen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(38,71,216,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(38,71,216,0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .auth-box {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      background: var(--card-bg);
+      border: 1px solid rgba(38,71,216,0.4);
+      border-radius: 4px;
+      box-shadow:
+        0 0 0 1px rgba(38,71,216,0.1),
+        0 0 60px rgba(38,71,216,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+      overflow: hidden;
+      animation: loginAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes loginAppear {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid rgba(38,71,216,0.2);
+    }
+
+    .auth-tab {
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      position: relative;
+      bottom: -1px;
+      flex: none;
+    }
+    .auth-tab:hover { color: rgba(255,255,255,0.6); background: rgba(38,71,216,0.05); box-shadow: none; }
+    .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(38,71,216,0.08); }
+
+    .auth-panel { padding: 36px 40px 40px; display: none; }
+    .auth-panel.active { display: block; }
+
+    .auth-icon { text-align: center; margin-bottom: 22px; }
+    .auth-svg { width: 48px; height: 48px; filter: drop-shadow(0 0 10px rgba(38,71,216,0.5)); }
+
+    .auth-title {
+      font-family: 'Share Tech Mono', monospace;
+      text-align: center;
+      font-size: 1.3rem;
+      letter-spacing: 3px;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .auth-subtitle {
+      text-align: center;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.25);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .auth-divider {
+      width: 50px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      margin: 0 auto 26px;
+    }
+
+    .auth-field { margin-bottom: 16px; }
+    .auth-field label {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 7px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .input-wrap { position: relative; }
+    .input-wrap svg {
+      position: absolute; left: 13px; top: 50%;
+      transform: translateY(-50%);
+      width: 15px; height: 15px;
+      color: rgba(255,255,255,0.25);
+      pointer-events: none;
+    }
+
+    .auth-field input {
+      width: 100%;
+      padding: 12px 13px 12px 40px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(38,71,216,0.25);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .auth-field input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(38,71,216,0.12);
+    }
+    .auth-field input::placeholder { color: rgba(255,255,255,0.18); }
+
+    .strength-bar { margin-top: 8px; display: none; }
+    .strength-bar.visible { display: block; }
+    .strength-track { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+    .strength-fill { height: 100%; border-radius: 2px; transition: width 0.3s, background 0.3s; width: 0%; }
+    .strength-label { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 1px; margin-top: 4px; }
+
+    .auth-msg {
+      font-size: 0.75rem;
+      text-align: center;
+      min-height: 18px;
+      margin-bottom: 6px;
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 1px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .auth-msg.visible { opacity: 1; }
+    .auth-msg.error   { color: var(--red); }
+    .auth-msg.success { color: var(--green); }
+
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 6px;
+      background: var(--primary);
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+      flex: none;
+    }
+    .auth-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(255,255,255,0.08), transparent); pointer-events: none; }
+    .auth-btn:hover { background: var(--primary-hover); box-shadow: 0 0 20px rgba(38,71,216,0.35); }
+    .auth-btn:active { transform: scale(0.98); }
+    .auth-btn.loading { pointer-events: none; background: #334155; }
+    .auth-btn.success-state { background: #059669; pointer-events: none; }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.68rem;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.18);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .scan-line {
+      position: absolute; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(38,71,216,0.5), transparent);
+      animation: scan 3s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes scan {
+      0%   { top: 0; opacity: 1; }
+      95%  { top: 100%; opacity: 0.2; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    #app { display: none; flex-direction: column; align-items: center; width: 100%; padding: 20px; position: relative; z-index: 1; }
+    #app.visible { display: flex; }
+
+    .container { max-width: 800px; width: 100%; }
+
+    h1 {
+      text-align: center; color: var(--primary); font-weight: 800;
+      letter-spacing: 4px; font-family: 'Share Tech Mono', monospace;
+      font-size: 1.6rem; margin-bottom: 6px;
+      animation: fadeDown 0.5s ease both;
+    }
+    .app-subtitle {
+      text-align: center; font-size: 0.75rem; letter-spacing: 3px;
+      color: rgba(255,255,255,0.25); text-transform: uppercase; margin-bottom: 30px;
+      font-family: 'Share Tech Mono', monospace;
+      animation: fadeDown 0.5s 0.1s ease both;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-bar {
+      display: flex; justify-content: flex-end; align-items: center; gap: 12px;
+      max-width: 800px; width: 100%; margin-bottom: 16px;
+      animation: fadeDown 0.5s ease both;
+    }
+    .user-badge {
+      font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; letter-spacing: 1px;
+      color: rgba(255,255,255,0.35); padding: 5px 12px;
+      border: 1px solid rgba(38,71,216,0.2); border-radius: 2px;
+    }
+    .logout-btn {
+      font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; letter-spacing: 1px;
+      color: rgba(255,255,255,0.4); background: none;
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
+      padding: 5px 12px; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      flex: none;
+    }
+    .logout-btn:hover { border-color: var(--red); color: var(--red); background: none; box-shadow: none; }
+
+    .card {
+      background: var(--card-bg); padding: 25px; border-radius: 4px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); margin-bottom: 25px;
+      border: 1px solid rgba(255,255,255,0.05);
+      animation: cardIn 0.5s ease both;
+    }
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h3 { margin-top: 0; color: var(--accent); font-size: 1rem; font-family: 'Share Tech Mono', monospace; letter-spacing: 2px; text-transform: uppercase; }
+    label { display: block; margin-bottom: 8px; font-size: 0.85rem; opacity: 0.7; letter-spacing: 1px; }
+
+    textarea, input[type="password"] {
+      width: 100%; padding: 12px; border-radius: 4px; border: 1px solid #334155;
+      background: #0f172a; color: white; box-sizing: border-box; margin-bottom: 15px;
+      font-family: 'Share Tech Mono', monospace; transition: border 0.3s; font-size: 0.9rem;
+    }
+    textarea:focus, input[type="password"]:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(38,71,216,0.1); }
+
+    button {
+      flex: 1; padding: 12px; background: var(--primary); border: 0; color: white;
+      font-weight: 700; font-family: 'Rajdhani', sans-serif; font-size: 0.95rem;
+      letter-spacing: 2px; text-transform: uppercase; border-radius: 4px; cursor: pointer;
+      transition: transform 0.1s, background 0.2s, box-shadow 0.2s;
+    }
+    button:hover { background: var(--primary-hover); box-shadow: 0 0 16px rgba(38,71,216,0.3); }
+    button:active { transform: scale(0.98); }
+    button.secondary { background: #475569; }
+    button.secondary:hover { background: #64748b; box-shadow: none; }
+
+    .output-container { position: relative; }
+    .output {
+      background: #000; padding: 20px; border-radius: 4px;
+      border: 1px solid var(--primary); min-height: 60px;
+      word-wrap: break-word; font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem; color: var(--green); white-space: pre-wrap;
+    }
+    .copy-btn {
+      position: absolute; top: 10px; right: 10px;
+      padding: 5px 10px; font-size: 0.65rem;
+      background: rgba(38,71,216,0.15); border: 1px solid var(--primary);
+      width: auto; flex: none; letter-spacing: 1px;
+    }
+
+    @keyframes slideOut {
+      to { opacity: 0; transform: scale(0.96) translateY(-10px); }
+    }
+
+    #loadingOverlay {
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200; flex-direction: column; gap: 16px;
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid rgba(38,71,216,0.2);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-text { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.3); }
+  </style>
+</head>
+<body>
+
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <p class="spinner-text">Conectando...</p>
+</div>
+
+<div id="authScreen" style="display:none;">
+  <div class="auth-box">
+    <div class="scan-line"></div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Iniciar Sesión</button>
+      <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">Crear Cuenta</button>
+    </div>
+
+    <div class="auth-panel active" id="panelLogin">
+      <div class="auth-icon">
+        <svg class="auth-svg" viewBox="0 0 64 64" fill="none">
+          <rect x="12" y="28" width="40" height="28" rx="4" stroke="#2647d8" stroke-width="2.5"/>
+          <path d="M20 28V20C20 13.373 25.373 8 32 8C38.627 8 44 13.373 44 20V28" stroke="#2647d8" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="32" cy="42" r="4" fill="#2647d8"/>
+          <line x1="32" y1="46" x2="32" y2="52" stroke="#2647d8" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p class="auth-title">Acceso Seguro</p>
+      <p class="auth-subtitle">Sistema de Cifrado</p>
+      <div class="auth-divider"></div>
+
+      <div class="auth-field">
+        <label>Correo electrónico</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <input type="email" id="loginEmail" placeholder="tu@correo.com" autocomplete="off"/>
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label>Contraseña</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input type="password" id="loginPass" placeholder="••••••••"/>
+        </div>
+      </div>
+
+      <p class="auth-msg error" id="loginError"></p>
+      <button class="auth-btn" id="loginBtn" onclick="intentarLogin()">Ingresar</button>
+    </div>
+
+    <div class="auth-panel" id="panelRegister">
+      <div class="auth-icon">
+        <svg class="auth-svg" viewBox="0 0 64 64" fill="none">
+          <circle cx="28" cy="22" r="12" stroke="#2647d8" stroke-width="2.5"/>
+          <path d="M8 52C8 43.163 17.373 36 28 36" stroke="#2647d8" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="48" y1="38" x2="48" y2="54" stroke="#2647d8" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="40" y1="46" x2="56" y2="46" stroke="#2647d8" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p class="auth-title">Nueva Cuenta</p>
+      <p class="auth-subtitle">Registro en la nube</p>
+      <div class="auth-divider"></div>
+
+      <div class="auth-field">
+        <label>Correo electrónico</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <input type="email" id="regEmail" placeholder="tu@correo.com" autocomplete="off"/>
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label>Contraseña</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input type="password" id="regPass" placeholder="mínimo 6 caracteres" oninput="evaluarFuerza()"/>
+        </div>
+        <div class="strength-bar" id="strengthBar">
+          <div class="strength-track"><div class="strength-fill" id="strengthFill"></div></div>
+          <p class="strength-label" id="strengthLabel"></p>
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label>Confirmar contraseña</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input type="password" id="regConfirm" placeholder="repite tu contraseña"/>
+        </div>
+      </div>
+
+      <p class="auth-msg error" id="regError"></p>
+      <p class="auth-msg success" id="regSuccess"></p>
+      <button class="auth-btn" id="regBtn" onclick="registrar()">Crear Cuenta</button>
+    </div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="user-bar">
+    <span class="user-badge" id="userBadge">● USUARIO</span>
+    <button class="logout-btn" onclick="cerrarSesion()">Cerrar sesión</button>
+  </div>
+  <div class="container">
+    <h1>CIFRADOR MULTICAPA</h1>
+    <p class="app-subtitle">Cifrado AES-GCM + XOR + Sustitución</p>
+
+    <div class="card">
+      <h3>⬡ Cifrar Mensaje</h3>
+      <label>Mensaje original:</label>
+      <textarea id="mensaje" rows="4" placeholder="Escribe tu mensaje secreto aquí..."></textarea>
+      <label>Contraseña de cifrado:</label>
+      <input type="password" id="password" placeholder="Usa una clave fuerte">
+      <button onclick="cifrar()">Generar Cifrado</button>
+    </div>
+
+    <div class="card">
+      <h3>⬡ Descifrar Mensaje</h3>
+      <label>Código JSON cifrado:</label>
+      <textarea id="mensajeCifrado" rows="4" placeholder='{"salt":"...","iv":"...","datos":"..."}'></textarea>
+      <label>Contraseña de descifrado:</label>
+      <input type="password" id="passwordDescifrar" placeholder="Introduce la clave">
+      <button onclick="descifrar()" class="secondary">Descifrar</button>
+    </div>
+
+    <div class="card">
+      <h3>⬡ Resultado</h3>
+      <div class="output-container">
+        <button class="copy-btn" onclick="copiarAlPortapapeles()">Copiar</button>
+        <div class="output" id="resultado">Los resultados aparecerán aquí...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://mqwecvjecqiwragpdneg.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_vxbgdMC43NYw7U7rMgXBoA_hEHBbqnE';
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  window.addEventListener('load', async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    document.getElementById('loadingOverlay').style.display = 'none';
+    if (session) {
+      mostrarApp(session.user.email);
+    } else {
+      document.getElementById('authScreen').style.display = 'flex';
+    }
+  });
+
+  function switchTab(tab) {
+    document.getElementById('tabLogin').classList.toggle('active', tab==='login');
+    document.getElementById('tabRegister').classList.toggle('active', tab==='register');
+    document.getElementById('panelLogin').classList.toggle('active', tab==='login');
+    document.getElementById('panelRegister').classList.toggle('active', tab==='register');
+    ['loginError','regError','regSuccess'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.textContent=''; el.classList.remove('visible'); }
+    });
+  }
+
+  window.addEventListener('load', () => {
+    document.getElementById('loginEmail').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('loginPass').focus(); });
+    document.getElementById('loginPass').addEventListener('keydown',  e => { if(e.key==='Enter') intentarLogin(); });
+    document.getElementById('regConfirm').addEventListener('keydown', e => { if(e.key==='Enter') registrar(); });
+  });
+
+  async function intentarLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass  = document.getElementById('loginPass').value;
+    const btn   = document.getElementById('loginBtn');
+    const err   = document.getElementById('loginError');
+
+    if (!email || !pass) { mostrarMsg('loginError', 'Completa todos los campos'); return; }
+
+    btn.textContent = 'Verificando...'; btn.classList.add('loading');
+    err.classList.remove('visible');
+
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+
+    btn.textContent = 'Ingresar'; btn.classList.remove('loading');
+
+    if (error) {
+      mostrarMsg('loginError', 'Correo o contraseña incorrectos');
+      document.getElementById('loginPass').value = '';
+    } else {
+      ocultarAuth();
+      mostrarApp(data.user.email);
+    }
+  }
+
+  function evaluarFuerza() {
+    const pass = document.getElementById('regPass').value;
+    const bar  = document.getElementById('strengthBar');
+    if (!pass) { bar.classList.remove('visible'); return; }
+    bar.classList.add('visible');
+    let s = 0;
+    if (pass.length >= 6)  s++;
+    if (pass.length >= 10) s++;
+    if (/[A-Z]/.test(pass)) s++;
+    if (/[0-9]/.test(pass)) s++;
+    if (/[^A-Za-z0-9]/.test(pass)) s++;
+    const lvls = [
+      {p:'15%',  c:'#ef4444', t:'Muy débil'},
+      {p:'35%',  c:'#f97316', t:'Débil'},
+      {p:'55%',  c:'#f59e0b', t:'Regular'},
+      {p:'78%',  c:'#84cc16', t:'Buena'},
+      {p:'100%', c:'#10b981', t:'Muy fuerte'},
+    ];
+    const l = lvls[Math.min(s,4)];
+    document.getElementById('strengthFill').style.cssText = `width:${l.p}; background:${l.c}`;
+    document.getElementById('strengthLabel').style.color  = l.c;
+    document.getElementById('strengthLabel').textContent  = l.t;
+  }
+
+  async function registrar() {
+    const email   = document.getElementById('regEmail').value.trim();
+    const pass    = document.getElementById('regPass').value;
+    const confirm = document.getElementById('regConfirm').value;
+    const btn     = document.getElementById('regBtn');
+
+    document.getElementById('regError').classList.remove('visible');
+    document.getElementById('regSuccess').classList.remove('visible');
+
+    if (!email || !pass || !confirm) { mostrarMsg('regError', 'Completa todos los campos'); return; }
+    if (pass.length < 6)             { mostrarMsg('regError', 'La contraseña debe tener al menos 6 caracteres'); return; }
+    if (pass !== confirm)            { mostrarMsg('regError', 'Las contraseñas no coinciden'); return; }
+
+    btn.textContent = 'Creando cuenta...'; btn.classList.add('loading');
+
+    const { data, error } = await sb.auth.signUp({ email, password: pass });
+
+    btn.textContent = 'Crear Cuenta'; btn.classList.remove('loading');
+
+    if (error) {
+      mostrarMsg('regError', error.message.includes('already') ? 'Ese correo ya está registrado' : 'Error: ' + error.message);
+    } else {
+      if (data.session) {
+        ocultarAuth();
+        mostrarApp(data.user.email);
+      }
+    }
+  }
+
+  async function cerrarSesion() {
+    await sb.auth.signOut();
+    const app = document.getElementById('app');
+    app.style.animation = 'slideOut 0.3s ease forwards';
+    setTimeout(() => {
+      app.style.animation = ''; app.classList.remove('visible');
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginPass').value  = '';
+      document.getElementById('authScreen').style.display = 'flex';
+    }, 280);
+  }
+
+  function mostrarMsg(id, txt) {
+    const el = document.getElementById(id);
+    el.textContent = txt; el.classList.add('visible');
+  }
+
+  function ocultarAuth() {
+    const screen = document.getElementById('authScreen');
+    screen.style.animation = 'slideOut 0.4s ease forwards';
+    setTimeout(() => { screen.style.display = 'none'; screen.style.animation = ''; }, 380);
+  }
+
+  function mostrarApp(email) {
+    document.getElementById('userBadge').textContent = '● ' + email;
+    document.getElementById('app').classList.add('visible');
+  }
+
+  const a2b = a => btoa(String.fromCharCode.apply(null,a));
+  const b2a = b => Uint8Array.from(atob(b), c=>c.charCodeAt(0));
+  const xorFn = (d,k) => { let o=new Uint8Array(d.length); for(let i=0;i<d.length;i++) o[i]=d[i]^k[i%k.length]; return o; };
+  const sub   = (d,k) => { let o=new Uint8Array(d.length); for(let i=0;i<d.length;i++) o[i]=(d[i]+k[i%k.length])%256; return o; };
+  const unsub = (d,k) => { let o=new Uint8Array(d.length); for(let i=0;i<d.length;i++) o[i]=(d[i]-k[i%k.length]+256)%256; return o; };
+
+  async function derivarClave(pw,salt,len=32) {
+    const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),{name:"PBKDF2"},false,["deriveBits"]);
+    return new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations:100000,hash:"SHA-256"},km,len*8));
+  }
+  async function cifrarAES(data,key) {
+    const iv=crypto.getRandomValues(new Uint8Array(12));
+    const ck=await crypto.subtle.importKey("raw",key,"AES-GCM",false,["encrypt"]);
+    return {iv, datos:new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},ck,data))};
+  }
+  async function descifrarAES(datos,key,iv) {
+    const ck=await crypto.subtle.importKey("raw",key,"AES-GCM",false,["decrypt"]);
+    return new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM",iv},ck,datos));
+  }
+
+  async function cifrar() {
+    try {
+      const msg=document.getElementById("mensaje").value, pw=document.getElementById("password").value;
+      if(!msg||!pw){alert("Rellena todos los campos");return;}
+      let d=new TextEncoder().encode(msg);
+      const salt=crypto.getRandomValues(new Uint8Array(16)), clave=await derivarClave(pw,salt);
+      d=xorFn(d,clave); d=sub(d,clave);
+      const aes=await cifrarAES(d,clave);
+      document.getElementById("resultado").innerText=JSON.stringify({salt:a2b(salt),iv:a2b(aes.iv),datos:a2b(aes.datos)},null,2);
+    } catch(e){document.getElementById("resultado").innerText="Error: "+e.message;}
+  }
+
+  async function descifrar() {
+    try {
+      const pw=document.getElementById("passwordDescifrar").value, inp=document.getElementById("mensajeCifrado").value.trim();
+      if(!pw||!inp){alert("Ingresa clave y mensaje cifrado");return;}
+      const p=JSON.parse(inp), clave=await derivarClave(pw,b2a(p.salt));
+      let d=await descifrarAES(b2a(p.datos),clave,b2a(p.iv));
+      d=unsub(d,clave); d=xorFn(d,clave);
+      document.getElementById("resultado").innerText=new TextDecoder().decode(d);
+    } catch(e){document.getElementById("resultado").innerText="Error: Contraseña incorrecta o formato inválido";}
+  }
+
+  function copiarAlPortapapeles() {
+    navigator.clipboard.writeText(document.getElementById("resultado").innerText);
+    const btn=document.querySelector('.copy-btn');
+    btn.innerText="¡Copiado!";
+    setTimeout(()=>btn.innerText="Copiar",2000);
+  }
+</script>
+</body>
+</html>
