@@ -193,7 +193,7 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
-      padding: 40px 20px;
+      padding: 40px 20px 80px;
       position: relative;
       z-index: 1;
       min-height: 100vh;
@@ -280,6 +280,273 @@
       border:1px solid var(--primary);
       width:auto; letter-spacing:1px;
     }
+
+    .footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 12px 24px;
+      background: rgba(15,23,42,0.92);
+      border-top: 1px solid rgba(38,71,216,0.15);
+      backdrop-filter: blur(10px);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.18);
+    }
+    .footer-copy { text-transform: uppercase; }
+    .footer-sep {
+      width: 1px; height: 12px;
+      background: rgba(38,71,216,0.3);
+    }
+    .footer-link {
+      text-transform: uppercase;
+      color: rgba(38,71,216,0.6);
+      cursor: pointer;
+      letter-spacing: 2px;
+      transition: color 0.2s, text-shadow 0.2s;
+      background: none;
+      border: none;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0;
+      width: auto;
+    }
+    .footer-link:hover {
+      color: var(--primary);
+      text-shadow: 0 0 12px rgba(38,71,216,0.6);
+      background: none;
+      box-shadow: none;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(9,14,28,0.88);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      position: relative;
+      max-width: 720px;
+      width: 100%;
+      max-height: 85vh;
+      background: #0d1b2e;
+      border: 1px solid rgba(38,71,216,0.35);
+      border-radius: 4px;
+      box-shadow:
+        0 0 0 1px rgba(38,71,216,0.08),
+        0 40px 80px rgba(0,0,0,0.7),
+        0 0 60px rgba(38,71,216,0.08);
+      display: flex;
+      flex-direction: column;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+      overflow: hidden;
+    }
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal::before, .modal::after,
+    .modal-inner::before, .modal-inner::after {
+      content: '';
+      position: absolute;
+      width: 10px; height: 10px;
+      z-index: 2;
+    }
+    .modal::before  { top:0;    left:0;  border-top:1px solid rgba(38,71,216,0.8); border-left:1px solid rgba(38,71,216,0.8); }
+    .modal::after   { top:0;    right:0; border-top:1px solid rgba(38,71,216,0.8); border-right:1px solid rgba(38,71,216,0.8); }
+    .modal-inner { position: relative; }
+    .modal-inner::before { bottom:0; left:0;  border-bottom:1px solid rgba(38,71,216,0.8); border-left:1px solid rgba(38,71,216,0.8); }
+    .modal-inner::after  { bottom:0; right:0; border-bottom:1px solid rgba(38,71,216,0.8); border-right:1px solid rgba(38,71,216,0.8); }
+
+    .modal-header {
+      padding: 22px 28px 18px;
+      border-bottom: 1px solid rgba(38,71,216,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .modal-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .modal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #fff;
+    }
+    .modal-title span { color: var(--primary); }
+    .modal-subtitle {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
+    }
+
+    .modal-close {
+      width: 32px; height: 32px;
+      background: rgba(38,71,216,0.1);
+      border: 1px solid rgba(38,71,216,0.25);
+      border-radius: 2px;
+      color: rgba(255,255,255,0.5);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+      padding: 0;
+    }
+    .modal-close:hover {
+      background: rgba(38,71,216,0.25);
+      border-color: rgba(38,71,216,0.6);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .modal-scan {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(38,71,216,0.5), transparent);
+      animation: modalScan 3s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes modalScan {
+      0%,100% { opacity: 0.3; }
+      50%      { opacity: 0.8; }
+    }
+
+    .modal-body {
+      padding: 24px 28px 28px;
+      overflow-y: auto;
+      flex: 1;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(38,71,216,0.4) transparent;
+    }
+    .modal-body::-webkit-scrollbar { width: 4px; }
+    .modal-body::-webkit-scrollbar-track { background: transparent; }
+    .modal-body::-webkit-scrollbar-thumb { background: rgba(38,71,216,0.4); border-radius: 2px; }
+
+    .modal-date {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      color: rgba(38,71,216,0.5);
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(38,71,216,0.1);
+    }
+
+    .terms-section {
+      margin-bottom: 24px;
+    }
+    .terms-section-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .terms-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(38,71,216,0.3), transparent);
+    }
+    .terms-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 8px;
+    }
+    .terms-list {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .terms-list li {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .terms-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: rgba(38,71,216,0.5);
+    }
+
+    .modal-footer {
+      padding: 14px 28px;
+      border-top: 1px solid rgba(38,71,216,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      background: rgba(38,71,216,0.03);
+    }
+    .modal-footer-copy {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.15);
+      text-transform: uppercase;
+    }
+    .modal-accept {
+      padding: 8px 28px;
+      background: rgba(38,71,216,0.15);
+      border: 1px solid rgba(38,71,216,0.4);
+      border-radius: 2px;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      width: auto;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .modal-accept:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(38,71,216,0.35);
+    }
   </style>
 </head>
 <body>
@@ -354,6 +621,122 @@
   </div>
 </div>
 
+<footer class="footer" id="mainFooter" style="display:none;">
+  <span class="footer-copy">© 2026 Derek Arguedas</span>
+  <div class="footer-sep"></div>
+  <button class="footer-link" onclick="abrirTerminos()">Términos y Condiciones</button>
+</footer>
+
+<div class="modal-overlay" id="modalTerminos" onclick="cerrarSiOverlay(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-title" id="modalTitulo">amnesia<span>.sbs</span></div>
+        <div class="modal-subtitle">Aviso Legal &amp; Política Anticopia — 2026</div>
+      </div>
+      <button class="modal-close" onclick="cerrarTerminos()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-scan"></div>
+
+    <div class="modal-body">
+      <div class="modal-date">Última actualización: 2026 &nbsp;|&nbsp; Jurisdicción: Costa Rica</div>
+
+      <div class="terms-section">
+        <div class="terms-section-title">1. Prohibición Absoluta de Uso</div>
+        <p class="terms-text">
+          Todo el contenido de este sitio web, incluyendo pero no limitado a textos, código fuente,
+          algoritmos, métodos de cifrado, estructuras, diseños, gráficos y cualquier otro material,
+          es propiedad exclusiva de Derek Arguedas. Queda terminantemente prohibido, sin excepción
+          y sin autorización previa, expresa y por escrito del titular:
+        </p>
+        <ul class="terms-list">
+          <li>Copiar o reproducir total o parcialmente el contenido</li>
+          <li>Distribuir, compartir o republicar el contenido</li>
+          <li>Modificar, adaptar o crear obras derivadas</li>
+          <li>Analizar, descompilar o reutilizar el código o algoritmos</li>
+          <li>Utilizar el contenido con fines comerciales, educativos o personales</li>
+        </ul>
+      </div>
+
+      <div class="terms-section">
+        <div class="terms-section-title">2. Ausencia de Licencia</div>
+        <p class="terms-text">
+          El acceso a este sitio web no concede, bajo ninguna circunstancia, licencia o derecho alguno
+          sobre el contenido. Todo derecho no expresamente otorgado queda estrictamente reservado.
+        </p>
+      </div>
+
+      <div class="terms-section">
+        <div class="terms-section-title">3. Exención de Responsabilidad</div>
+        <p class="terms-text">
+          El contenido se proporciona "tal cual" y "según disponibilidad", sin garantías de ningún tipo.
+          El titular no se hace responsable por daños directos, indirectos, incidentales o consecuentes
+          que puedan surgir del uso del sitio. Esto incluye, sin limitación:
+        </p>
+        <ul class="terms-list">
+          <li>Pérdida de datos</li>
+          <li>Fallos de seguridad</li>
+          <li>Errores en el código o funcionamiento</li>
+          <li>Daños económicos o comerciales</li>
+          <li>Consecuencias derivadas de la aplicación de la información contenida en el sitio</li>
+        </ul>
+        <p class="terms-text" style="margin-top:8px;">El uso del sitio es responsabilidad exclusiva del usuario.</p>
+      </div>
+
+      <div class="terms-section">
+        <div class="terms-section-title">4. Acciones Legales</div>
+        <p class="terms-text">Cualquier uso no autorizado será considerado una infracción grave de los derechos de propiedad intelectual y dará lugar a:</p>
+        <ul class="terms-list">
+          <li>Reclamaciones civiles por daños y perjuicios</li>
+          <li>Solicitudes de retirada de contenido (takedown)</li>
+          <li>Acciones legales nacionales e internacionales</li>
+          <li>Reclamaciones ante plataformas digitales y proveedores de servicios</li>
+        </ul>
+      </div>
+
+      <div class="terms-section">
+        <div class="terms-section-title">5. Sin Excepciones Contractuales</div>
+        <p class="terms-text">
+          Ninguna disposición de este aviso podrá interpretarse como renuncia a los derechos del titular.
+          Las excepciones legales aplicables se regirán exclusivamente por la legislación vigente, sin
+          ampliaciones por interpretación del usuario.
+        </p>
+      </div>
+
+      <div class="terms-section">
+        <div class="terms-section-title">6. Jurisdicción y Ley Aplicable</div>
+        <p class="terms-text">
+          Este acuerdo se rige por las leyes de la República de Costa Rica. Cualquier disputa será
+          sometida exclusivamente a los tribunales competentes de dicha jurisdicción.
+        </p>
+      </div>
+
+      <div class="terms-section">
+        <div class="terms-section-title">7. Modificaciones</div>
+        <p class="terms-text">
+          El titular se reserva el derecho de modificar este aviso en cualquier momento sin previo aviso.
+          El uso continuado del sitio implica la aceptación de dichas modificaciones.
+        </p>
+      </div>
+
+      <div class="terms-section">
+        <div class="terms-section-title">8. Contacto</div>
+        <p class="terms-text">
+          Cualquier solicitud de uso deberá contar con autorización expresa y por escrito del titular.
+          El acceso al sitio web implica la aceptación plena y sin reservas de las presentes condiciones.
+        </p>
+      </div>
+
+      <div class="modal-inner"></div>
+    </div>
+
+    <div class="modal-footer">
+      <span class="modal-footer-copy">© 2026 Derek Arguedas — Todos los derechos reservados</span>
+      <button class="modal-accept" onclick="cerrarTerminos()">Aceptar</button>
+    </div>
+  </div>
+</div>
+
 <script>
   function entrar() {
     const splash = document.getElementById('splash');
@@ -361,8 +744,24 @@
     setTimeout(() => {
       splash.style.display = 'none';
       document.getElementById('app').classList.add('visible');
+      document.getElementById('mainFooter').style.display = 'flex';
     }, 480);
   }
+
+  function abrirTerminos() {
+    document.getElementById('modalTerminos').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function cerrarTerminos() {
+    document.getElementById('modalTerminos').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function cerrarSiOverlay(e) {
+    if (e.target === document.getElementById('modalTerminos')) cerrarTerminos();
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') cerrarTerminos();
+  });
 
   const a2b = a => btoa(String.fromCharCode.apply(null, a));
   const b2a = b => Uint8Array.from(atob(b), c => c.charCodeAt(0));
