@@ -22,6 +22,7 @@
     .grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(38,71,216,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(38,71,216,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
     .grid-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(38,71,216,0.08) 0%,transparent 70%)}
 
+    /* ─── SPLASH ─── */
     #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:50;background:var(--bg);transition:opacity .5s,transform .5s}
     #splash.out{opacity:0;transform:scale(1.04);pointer-events:none}
     .splash-orb{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(38,71,216,0.1) 0%,transparent 65%);animation:orbPulse 5s ease-in-out infinite}
@@ -61,6 +62,7 @@
     .splash-enter .corner.tl{top:4px;left:4px;border-top:1px solid rgba(38,71,216,.6);border-left:1px solid rgba(38,71,216,.6)}
     .splash-enter .corner.br{bottom:4px;right:4px;border-bottom:1px solid rgba(38,71,216,.6);border-right:1px solid rgba(38,71,216,.6)}
 
+    /* ─── APP ─── */
     #app{display:none;flex-direction:column;align-items:center;width:100%;padding:44px 20px 100px;position:relative;z-index:1;min-height:100vh}
     #app.visible{display:flex}
     .container{max-width:820px;width:100%}
@@ -71,6 +73,7 @@
     h1{color:#fff;font-weight:700;letter-spacing:5px;font-family:'Share Tech Mono',monospace;font-size:1.5rem;margin-bottom:6px}
     .app-subtitle{font-size:.72rem;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;font-family:'Share Tech Mono',monospace}
 
+    /* tabs */
     .tab-bar{display:flex;gap:0;border:1px solid var(--card-border);border-radius:4px;overflow:hidden;margin-bottom:28px;animation:fadeDown .6s .1s ease both;background:var(--surface2)}
     .tab-btn{flex:1;padding:12px;background:transparent;border:none;color:var(--text-muted);font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .25s,color .25s;width:auto;border-radius:0;position:relative}
     .tab-btn::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--primary);transform:scaleX(0);transition:transform .25s}
@@ -115,6 +118,7 @@
     .strength-label{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:2px;transition:color .3s}
     .strength-tips{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--text-dim);letter-spacing:1px}
 
+    /* PBKDF2 progress */
     .kdf-progress-wrap{display:none;align-items:center;gap:10px;margin-bottom:14px;padding:8px 12px;background:rgba(38,71,216,.06);border:1px solid rgba(38,71,216,.15);border-radius:3px}
     .kdf-progress-wrap.visible{display:flex}
     .kdf-bar-bg{flex:1;height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
@@ -131,24 +135,22 @@
     button.loading .btn-shimmer{animation:shimmer 1s ease-in-out infinite}
     @keyframes shimmer{to{transform:translateX(100%)}}
 
+    /* output */
     .output-container{position:relative}
     .output-actions{display:flex;gap:8px;position:absolute;top:10px;right:10px;z-index:2}
     .act-btn{padding:5px 10px;font-size:.62rem;background:rgba(15,25,41,.8);border:1px solid rgba(38,71,216,.25);width:auto;letter-spacing:1px;font-family:'Share Tech Mono',monospace;color:var(--text-muted);border-radius:3px;cursor:pointer;transition:all .2s;backdrop-filter:blur(4px)}
     .act-btn:hover{background:rgba(38,71,216,.15);border-color:var(--primary);color:#fff;box-shadow:none}
-    .act-btn.danger:hover{background:rgba(255,77,106,.1);border-color:var(--red);color:var(--red)}
     .output{background:var(--input-bg);padding:18px;padding-top:46px;border-radius:4px;border:1px solid rgba(38,71,216,.2);min-height:90px;word-wrap:break-word;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--green);white-space:pre-wrap;transition:border-color .3s,color .3s;line-height:1.6}
     .output.error{color:var(--red);border-color:rgba(255,77,106,.3)}
     .output.placeholder{color:var(--text-dim);font-size:.78rem;letter-spacing:1px}
 
-    .history-section{margin-top:4px}
+    /* history */
     .history-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
     .history-title{font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase}
     .history-clear-btn{width:auto;padding:3px 9px;background:transparent;border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.2);font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:1px;border-radius:3px;cursor:pointer;transition:all .2s}
     .history-clear-btn:hover{border-color:var(--red);color:var(--red);background:transparent;box-shadow:none}
-    .history-list{display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(38,71,216,.3) transparent}
-    .history-list::-webkit-scrollbar{width:3px}
-    .history-list::-webkit-scrollbar-thumb{background:rgba(38,71,216,.3);border-radius:2px}
-    .history-item{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--surface2);border:1px solid rgba(38,71,216,.1);border-radius:4px;cursor:pointer;transition:border-color .2s,background .2s;animation:cardIn .3s ease both}
+    .history-list{display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto}
+    .history-item{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--surface2);border:1px solid rgba(38,71,216,.1);border-radius:4px;cursor:pointer;transition:border-color .2s,background .2s}
     .history-item:hover{border-color:rgba(38,71,216,.3);background:rgba(38,71,216,.04)}
     .history-badge{padding:2px 8px;border-radius:2px;font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
     .history-badge.enc{background:rgba(38,71,216,.15);color:var(--blue-light);border:1px solid rgba(38,71,216,.2)}
@@ -157,6 +159,7 @@
     .history-time{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--text-dim);white-space:nowrap;flex-shrink:0;padding-top:2px}
     .history-empty{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:2px;text-align:center;padding:28px;border:1px dashed rgba(38,71,216,.1);border-radius:4px}
 
+    /* info card */
     .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
     @media(max-width:600px){.info-grid{grid-template-columns:1fr}}
     .info-card{background:var(--surface2);border:1px solid var(--card-border);border-radius:4px;padding:16px}
@@ -165,37 +168,8 @@
     .info-card-title{font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:2px;color:var(--blue-light);margin-bottom:5px;text-transform:uppercase}
     .info-card-text{font-size:.82rem;color:var(--text-muted);line-height:1.5}
 
-    .file-drop{border:1px dashed rgba(38,71,216,.3);border-radius:4px;padding:32px 20px;text-align:center;cursor:pointer;transition:border-color .25s,background .25s;background:var(--input-bg);position:relative;margin-bottom:12px}
-    .file-drop:hover,.file-drop.drag{border-color:var(--primary);background:rgba(38,71,216,.06)}
-    .file-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-    .file-drop-icon{width:36px;height:36px;margin:0 auto 10px;background:rgba(38,71,216,.12);border-radius:50%;display:flex;align-items:center;justify-content:center}
-    .file-drop-icon svg{width:18px;height:18px;stroke:var(--blue-light)}
-    .file-drop-label{font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:2px;color:var(--text-muted)}
-    .file-drop-sub{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-dim);margin-top:4px;letter-spacing:1px}
-    .file-info{display:none;align-items:center;gap:12px;padding:10px 14px;background:rgba(38,71,216,.07);border:1px solid rgba(38,71,216,.2);border-radius:4px;margin-bottom:12px}
-    .file-info.visible{display:flex}
-    .file-info-icon{width:28px;height:28px;background:rgba(38,71,216,.15);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .file-info-icon svg{width:14px;height:14px;stroke:var(--blue-light)}
-    .file-info-name{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .file-info-size{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--text-dim);flex-shrink:0}
-    .file-info-remove{background:none;border:none;color:var(--text-dim);cursor:pointer;width:auto;padding:2px 4px;font-size:.8rem;transition:color .2s}
-    .file-info-remove:hover{color:var(--red);background:none;box-shadow:none}
-    .file-progress-wrap{display:none;flex-direction:column;gap:6px;margin-bottom:14px;padding:10px 14px;background:rgba(38,71,216,.06);border:1px solid rgba(38,71,216,.15);border-radius:3px}
-    .file-progress-wrap.visible{display:flex}
-    .file-progress-label{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:2px;color:var(--blue-light)}
-    .file-progress-bar-bg{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
-    .file-progress-bar{height:100%;width:0%;background:var(--primary);border-radius:2px;transition:width .1s linear}
-
-    footer{position:fixed;bottom:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:10px 28px;background:rgba(8,14,31,.95);border-top:1px solid rgba(38,71,216,.1);backdrop-filter:blur(12px);font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:2px}
-    .footer-left{display:flex;align-items:center;gap:16px;color:var(--text-dim)}
-    .footer-sep{width:1px;height:10px;background:rgba(38,71,216,.25)}
-    .footer-status{display:flex;align-items:center;gap:6px;color:var(--green);font-size:.58rem;letter-spacing:2px}
-    .status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:statusPulse 2s ease-in-out infinite}
-    @keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.4}}
-    .footer-link{background:none;border:none;color:rgba(38,71,216,.6);cursor:pointer;letter-spacing:2px;font-family:'Share Tech Mono',monospace;font-size:.62px;font-size:.62rem;padding:0;width:auto;transition:color .2s,text-shadow .2s}
-    .footer-link:hover{color:var(--primary);text-shadow:0 0 10px rgba(38,71,216,.5);background:none;box-shadow:none}
-
-    #toast-container{position:fixed;bottom:52px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:9999;pointer-events:none}
+    /* toasts */
+    #toast-container{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:9999;pointer-events:none}
     .toast{display:flex;align-items:center;gap:10px;padding:11px 16px;background:var(--card-bg);border:1px solid rgba(38,71,216,.3);border-radius:3px;font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:1.5px;color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,.5);transform:translateX(110%);transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s;pointer-events:auto}
     .toast.show{transform:translateX(0)}
     .toast.hide{transform:translateX(110%);opacity:0}
@@ -203,40 +177,6 @@
     .toast.success .toast-dot{background:var(--green);box-shadow:0 0 6px var(--green)}
     .toast.error .toast-dot{background:var(--red);box-shadow:0 0 6px var(--red)}
     .toast.info .toast-dot{background:var(--primary);box-shadow:0 0 6px var(--primary)}
-    .toast.warning .toast-dot{background:var(--amber);box-shadow:0 0 6px var(--amber)}
-
-    .modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(4,8,20,.9);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
-    .modal-overlay.open{opacity:1;pointer-events:all}
-    .modal{position:relative;max-width:720px;width:100%;max-height:85vh;background:#080f1e;border:1px solid rgba(38,71,216,.3);border-radius:5px;box-shadow:0 0 0 1px rgba(38,71,216,.06),0 40px 80px rgba(0,0,0,.8);display:flex;flex-direction:column;transform:translateY(16px) scale(.97);transition:transform .35s cubic-bezier(.16,1,.3,1);overflow:hidden}
-    .modal-overlay.open .modal{transform:none}
-    .corner-mark{position:absolute;width:10px;height:10px}
-    .corner-mark.tl{top:0;left:0;border-top:1px solid rgba(38,71,216,.7);border-left:1px solid rgba(38,71,216,.7)}
-    .corner-mark.tr{top:0;right:0;border-top:1px solid rgba(38,71,216,.7);border-right:1px solid rgba(38,71,216,.7)}
-    .corner-mark.bl{bottom:0;left:0;border-bottom:1px solid rgba(38,71,216,.7);border-left:1px solid rgba(38,71,216,.7)}
-    .corner-mark.br{bottom:0;right:0;border-bottom:1px solid rgba(38,71,216,.7);border-right:1px solid rgba(38,71,216,.7)}
-    .modal-header{padding:20px 26px 16px;border-bottom:1px solid rgba(38,71,216,.12);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-    .modal-title{font-family:'Cinzel',serif;font-size:1rem;font-weight:700;letter-spacing:3px;color:#fff}
-    .modal-title span{color:var(--primary)}
-    .modal-subtitle{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-top:3px}
-    .modal-close{width:30px;height:30px;background:rgba(38,71,216,.08);border:1px solid rgba(38,71,216,.2);border-radius:3px;color:var(--text-muted);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;padding:0;width:auto}
-    .modal-close:hover{background:rgba(38,71,216,.2);color:#fff;border-color:rgba(38,71,216,.5);box-shadow:none}
-    .modal-scan{height:1px;background:linear-gradient(90deg,transparent,rgba(38,71,216,.5),transparent);animation:modalScan 3s ease-in-out infinite;flex-shrink:0}
-    @keyframes modalScan{0%,100%{opacity:.2}50%{opacity:.7}}
-    .modal-body{padding:22px 26px 26px;overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:rgba(38,71,216,.3) transparent}
-    .modal-body::-webkit-scrollbar{width:3px}
-    .modal-body::-webkit-scrollbar-thumb{background:rgba(38,71,216,.3);border-radius:2px}
-    .modal-date{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:3px;color:rgba(38,71,216,.45);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(38,71,216,.08)}
-    .terms-section{margin-bottom:22px}
-    .terms-section-title{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:3px;color:var(--primary);text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:10px}
-    .terms-section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(38,71,216,.25),transparent)}
-    .terms-text{font-size:.86rem;line-height:1.7;color:rgba(255,255,255,.45);margin-bottom:8px}
-    .terms-list{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:5px}
-    .terms-list li{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:rgba(255,255,255,.32);padding-left:16px;position:relative;line-height:1.6}
-    .terms-list li::before{content:'▸';position:absolute;left:0;color:rgba(38,71,216,.4)}
-    .modal-footer{padding:12px 26px;border-top:1px solid rgba(38,71,216,.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-    .modal-footer-copy{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--text-dim)}
-    .modal-accept{padding:8px 26px;background:rgba(38,71,216,.12);border:1px solid rgba(38,71,216,.35);border-radius:2px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;width:auto;transition:all .2s}
-    .modal-accept:hover{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 0 20px var(--primary-glow)}
   </style>
 </head>
 <body>
@@ -244,6 +184,7 @@
 <div class="grid-bg"></div>
 <div id="toast-container"></div>
 
+<!-- ═══ SPLASH ═══ -->
 <div id="splash">
   <div class="scan"></div>
   <div class="splash-orb"></div>
@@ -265,14 +206,6 @@
           <path d="M22 32V24C22 16.268 28.268 10 36 10C43.732 10 50 16.268 50 24V32" stroke="#2647d8" stroke-width="1.5" stroke-linecap="round"/>
           <circle cx="36" cy="47" r="4.5" fill="#2647d8"/>
           <line x1="36" y1="51.5" x2="36" y2="57" stroke="#2647d8" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="14" y1="35" x2="14" y2="32" stroke="rgba(38,71,216,0.4)" stroke-width="1"/>
-          <line x1="14" y1="32" x2="17" y2="32" stroke="rgba(38,71,216,0.4)" stroke-width="1"/>
-          <line x1="58" y1="35" x2="58" y2="32" stroke="rgba(38,71,216,0.4)" stroke-width="1"/>
-          <line x1="58" y1="32" x2="55" y2="32" stroke="rgba(38,71,216,0.4)" stroke-width="1"/>
-          <line x1="14" y1="59" x2="14" y2="62" stroke="rgba(38,71,216,0.4)" stroke-width="1"/>
-          <line x1="14" y1="62" x2="17" y2="62" stroke="rgba(38,71,216,0.4)" stroke-width="1"/>
-          <line x1="58" y1="59" x2="58" y2="62" stroke="rgba(38,71,216,0.4)" stroke-width="1"/>
-          <line x1="58" y1="62" x2="55" y2="62" stroke="rgba(38,71,216,0.4)" stroke-width="1"/>
         </svg>
       </div>
       <div class="splash-title">amnesia<span>.sbs</span></div>
@@ -289,6 +222,7 @@
   </div>
 </div>
 
+<!-- ═══ APP ═══ -->
 <div id="app">
   <div class="container">
     <div class="app-header">
@@ -302,9 +236,9 @@
       <button class="tab-btn" onclick="switchTab('decrypt')" id="tab-dec">⬡ Descifrar</button>
       <button class="tab-btn" onclick="switchTab('history')" id="tab-hist">⬡ Historial</button>
       <button class="tab-btn" onclick="switchTab('info')" id="tab-info">⬡ Info</button>
-      <button class="tab-btn" onclick="switchTab('file')" id="tab-file">⬡ Archivo</button>
     </div>
 
+    <!-- ENCRYPT TAB -->
     <div class="tab-panel active" id="panel-encrypt">
       <div class="card">
         <div class="card-header">
@@ -332,10 +266,6 @@
             <div class="strength-tips" id="strength-enc-tips"></div>
           </div>
         </div>
-        <div class="kdf-progress-wrap" id="kdf-enc-wrap">
-          <div class="kdf-label" id="kdf-enc-label">DERIVANDO CLAVE...</div>
-          <div class="kdf-bar-bg"><div class="kdf-bar" id="kdf-enc-bar"></div></div>
-        </div>
         <button onclick="cifrar()" id="btn-cifrar">
           <span class="btn-shimmer"></span>
           <span id="btn-cifrar-text">Generar Cifrado</span>
@@ -346,862 +276,311 @@
         <h3 id="card-result-enc-title">⬡ Resultado</h3>
         <div class="output-container" style="margin-top:14px">
           <div class="output-actions">
-            <button class="act-btn danger" onclick="clearOutput('resultado-enc')" title="Limpiar">✕</button>
-            <button class="act-btn" onclick="copiar('resultado-enc','btn-copy-enc')" id="btn-copy-enc">Copiar</button>
+            <button class="act-btn" onclick="copyOutput('resultado-enc')">COPIAR</button>
           </div>
-          <div class="output placeholder" id="resultado-enc" id="resultado-enc">Los resultados aparecerán aquí...</div>
+          <div class="output placeholder" id="resultado-enc">El texto cifrado aparecerá aquí...</div>
         </div>
       </div>
     </div>
 
+    <!-- DECRYPT TAB -->
     <div class="tab-panel" id="panel-decrypt">
       <div class="card">
         <div class="card-header">
           <div class="card-title-group">
             <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V7a5 5 0 0 1 9.9-1"/><rect x="3" y="11" width="18" height="11" rx="2"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
             </div>
-            <h3 id="card-decrypt-title">Descifrar Mensaje</h3>
+            <h3>Descifrar Mensaje</h3>
           </div>
-          <button class="btn-clear" onclick="clearDecrypt()" id="btn-clear-dec">LIMPIAR</button>
+          <button class="btn-clear" onclick="clearDecrypt()">LIMPIAR</button>
         </div>
-        <label id="label-cipher">Código JSON cifrado:</label>
-        <textarea id="mensajeCifrado" rows="5" placeholder='{"salt":"...","iv":"...","datos":"..."}'></textarea>
-        <label id="label-pw2"><span>Contraseña de descifrado:</span></label>
+        <label>Mensaje Cifrado:</label>
+        <textarea id="mensaje-cifrado" rows="5" placeholder="Pega el mensaje cifrado aquí..."></textarea>
+        <label>Contraseña:</label>
         <div class="pw-wrap">
-          <input type="password" id="passwordDescifrar" oninput="checkStrength(this.value,'strength-dec')" placeholder="Introduce la clave">
-          <button class="pw-eye" type="button" onclick="togglePw('passwordDescifrar',this)" tabindex="-1">
+          <input type="password" id="password-dec" placeholder="Ingresa la clave de descifrado">
+          <button class="pw-eye" type="button" onclick="togglePw('password-dec',this)" tabindex="-1">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
-        <div class="strength-wrap">
-          <div class="strength-bar-bg"><div class="strength-bar" id="strength-dec"></div></div>
-          <div class="strength-row">
-            <div class="strength-label" id="strength-dec-label"></div>
-          </div>
-        </div>
-        <div class="kdf-progress-wrap" id="kdf-dec-wrap">
-          <div class="kdf-label" id="kdf-dec-label">DERIVANDO CLAVE...</div>
-          <div class="kdf-bar-bg"><div class="kdf-bar" id="kdf-dec-bar"></div></div>
-        </div>
-        <button onclick="descifrar()" class="secondary" id="btn-descifrar">
+        <button onclick="descifrar()" style="margin-top:16px">
           <span class="btn-shimmer"></span>
-          <span id="btn-descifrar-text">Descifrar</span>
+          <span>Descifrar Mensaje</span>
         </button>
       </div>
+
       <div class="card">
-        <h3 id="card-result-dec-title">⬡ Resultado</h3>
+        <h3>⬡ Texto Original</h3>
         <div class="output-container" style="margin-top:14px">
           <div class="output-actions">
-            <button class="act-btn danger" onclick="clearOutput('resultado-dec')" title="Limpiar">✕</button>
-            <button class="act-btn" onclick="copiar('resultado-dec','btn-copy-dec')" id="btn-copy-dec">Copiar</button>
+            <button class="act-btn" onclick="copyOutput('resultado-dec')">COPIAR</button>
           </div>
-          <div class="output placeholder" id="resultado-dec">Los resultados aparecerán aquí...</div>
+          <div class="output placeholder" id="resultado-dec">El texto descifrado aparecerá aquí...</div>
         </div>
       </div>
     </div>
 
+    <!-- HISTORY TAB -->
     <div class="tab-panel" id="panel-history">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title-group">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </div>
-            <h3 id="hist-title">Historial de Operaciones</h3>
-          </div>
-          <button class="history-clear-btn" onclick="clearHistory()" id="hist-clear-btn">LIMPIAR</button>
+        <div class="history-header">
+          <div class="history-title">Historial Local</div>
+          <button class="history-clear-btn" onclick="clearHistory()">BORRAR TODO</button>
         </div>
-        <div class="history-section">
-          <div class="history-list" id="history-list"></div>
+        <div class="history-list" id="history-list">
+          <div class="history-empty">NO HAY REGISTROS EN EL HISTORIAL</div>
         </div>
       </div>
     </div>
 
+    <!-- INFO TAB -->
     <div class="tab-panel" id="panel-info">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title-group">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            </div>
-            <h3 id="info-title">Cómo Funciona</h3>
-          </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="info-card-title">Cifrado Local</div>
+          <div class="info-card-text">Toda la encriptación se realiza directamente en el navegador mediante Web Crypto API.</div>
         </div>
-        <div class="info-grid" id="info-grid">
-          <div class="info-card">
-            <div class="info-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </div>
-            <div class="info-card-title" id="info1-title">AES-GCM</div>
-            <p class="info-card-text" id="info1-text">Cifrado simétrico autenticado de 256 bits. Protege la integridad y confidencialidad del mensaje.</p>
-          </div>
-          <div class="info-card">
-            <div class="info-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            </div>
-            <div class="info-card-title" id="info2-title">XOR + Sustitución</div>
-            <p class="info-card-text" id="info2-text">Capas adicionales de ofuscación derivadas de la misma clave. Triple cifrado independiente.</p>
-          </div>
-          <div class="info-card">
-            <div class="info-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-            </div>
-            <div class="info-card-title" id="info3-title">PBKDF2</div>
-            <p class="info-card-text" id="info3-text">100,000 iteraciones SHA-256 con salt aleatorio. Hace inviable el ataque por fuerza bruta.</p>
-          </div>
+        <div class="info-card">
+          <div class="info-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <div class="info-card-title">Seguridad AES-GCM</div>
+          <div class="info-card-text">Algoritmo de grado militar que garantiza autenticidad y confidencialidad.</div>
         </div>
-        <div style="margin-top:20px;padding:16px;background:rgba(38,71,216,.05);border:1px solid rgba(38,71,216,.1);border-radius:4px">
-          <p style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--text-dim);letter-spacing:1.5px;line-height:1.7" id="info-disclaimer">⚠ Todo el cifrado se ejecuta localmente en tu navegador. Ningún dato es enviado a servidores externos.</p>
+        <div class="info-card">
+          <div class="info-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div class="info-card-title">Zero Server</div>
+          <div class="info-card-text">Sin servidores ni almacenamiento remoto. Tus claves jamás salen de tu dispositivo.</div>
         </div>
       </div>
     </div>
 
-    <div class="tab-panel" id="panel-file">
-      <!-- ENCRYPT FILE -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title-group">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><rect x="8" y="11" width="8" height="7" rx="1"/><line x1="12" y1="13" x2="12" y2="15"/></svg>
-            </div>
-            <h3 id="file-enc-title">Cifrar Archivo</h3>
-          </div>
-          <button class="btn-clear" onclick="clearFileEncrypt()" id="btn-clear-file-enc">LIMPIAR</button>
-        </div>
-
-        <div class="file-drop" id="file-drop-enc" ondragover="fileDragOver(event,'enc')" ondragleave="fileDragLeave('enc')" ondrop="fileDrop(event,'enc')">
-          <input type="file" id="file-input-enc" onchange="fileSelected(this,'enc')">
-          <div class="file-drop-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          </div>
-          <div class="file-drop-label" id="file-drop-label-enc">Arrastrá o hacé click para seleccionar</div>
-          <div class="file-drop-sub" id="file-drop-sub-enc">Cualquier tipo · Máx recomendado 50 MB</div>
-        </div>
-
-        <div class="file-info" id="file-info-enc">
-          <div class="file-info-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          </div>
-          <span class="file-info-name" id="file-name-enc">—</span>
-          <span class="file-info-size" id="file-size-enc">—</span>
-          <button class="file-info-remove" onclick="clearFileEncrypt()" title="Quitar">✕</button>
-        </div>
-
-        <label id="file-label-pw"><span>Contraseña de cifrado:</span></label>
-        <div class="pw-wrap" style="margin-bottom:12px">
-          <input type="password" id="file-password-enc" oninput="checkStrength(this.value,'strength-file-enc')" placeholder="Usa una clave fuerte">
-          <button class="pw-eye" type="button" onclick="togglePw('file-password-enc',this)" tabindex="-1">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="strength-wrap">
-          <div class="strength-bar-bg"><div class="strength-bar" id="strength-file-enc"></div></div>
-          <div class="strength-row">
-            <div class="strength-label" id="strength-file-enc-label"></div>
-            <div class="strength-tips" id="strength-file-enc-tips"></div>
-          </div>
-        </div>
-        <div class="file-progress-wrap" id="file-progress-enc-wrap">
-          <div class="file-progress-label" id="file-progress-enc-label">PROCESANDO...</div>
-          <div class="file-progress-bar-bg"><div class="file-progress-bar" id="file-progress-enc-bar"></div></div>
-        </div>
-        <button onclick="cifrarArchivo()" id="btn-cifrar-archivo">
-          <span class="btn-shimmer"></span>
-          <span id="btn-cifrar-archivo-text">Cifrar y Descargar</span>
-        </button>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title-group">
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-            </div>
-            <h3 id="file-dec-title">Descifrar Archivo</h3>
-          </div>
-          <button class="btn-clear" onclick="clearFileDecrypt()" id="btn-clear-file-dec">LIMPIAR</button>
-        </div>
-
-        <div class="file-drop" id="file-drop-dec" ondragover="fileDragOver(event,'dec')" ondragleave="fileDragLeave('dec')" ondrop="fileDrop(event,'dec')">
-          <input type="file" id="file-input-dec" accept=".encrypted" onchange="fileSelected(this,'dec')">
-          <div class="file-drop-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          </div>
-          <div class="file-drop-label" id="file-drop-label-dec">Arrastrá o hacé click para seleccionar</div>
-          <div class="file-drop-sub" id="file-drop-sub-dec">Solo archivos .encrypted</div>
-        </div>
-
-        <div class="file-info" id="file-info-dec">
-          <div class="file-info-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          </div>
-          <span class="file-info-name" id="file-name-dec">—</span>
-          <span class="file-info-size" id="file-size-dec">—</span>
-          <button class="file-info-remove" onclick="clearFileDecrypt()" title="Quitar">✕</button>
-        </div>
-
-        <label id="file-label-pw2"><span>Contraseña de descifrado:</span></label>
-        <div class="pw-wrap" style="margin-bottom:12px">
-          <input type="password" id="file-password-dec" oninput="checkStrength(this.value,'strength-file-dec')" placeholder="Introduce la clave">
-          <button class="pw-eye" type="button" onclick="togglePw('file-password-dec',this)" tabindex="-1">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-        <div class="strength-wrap">
-          <div class="strength-bar-bg"><div class="strength-bar" id="strength-file-dec"></div></div>
-          <div class="strength-row">
-            <div class="strength-label" id="strength-file-dec-label"></div>
-          </div>
-        </div>
-        <div class="file-progress-wrap" id="file-progress-dec-wrap">
-          <div class="file-progress-label" id="file-progress-dec-label">PROCESANDO...</div>
-          <div class="file-progress-bar-bg"><div class="file-progress-bar" id="file-progress-dec-bar"></div></div>
-        </div>
-        <button onclick="descifrarArchivo()" class="secondary" id="btn-descifrar-archivo">
-          <span class="btn-shimmer"></span>
-          <span id="btn-descifrar-archivo-text">Descifrar y Descargar</span>
-        </button>
-      </div>
-    </div>
-
-  </div>
-
-<footer id="mainFooter" style="display:none">
-  <div class="footer-left">
-    <span id="footer-copy">© 2026 Derek Arguedas</span>
-    <div class="footer-sep"></div>
-    <button class="footer-link" onclick="abrirTerminos()" id="footer-terms-btn">Términos</button>
-  </div>
-  <div class="footer-status">
-    <div class="status-dot"></div>
-    <span id="footer-status-text">LOCAL · SEGURO</span>
-  </div>
-</footer>
-
-<div class="modal-overlay" id="modalTerminos" onclick="cerrarSiOverlay(event)">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
-    <div class="corner-mark tl"></div><div class="corner-mark tr"></div>
-    <div class="corner-mark bl"></div><div class="corner-mark br"></div>
-    <div class="modal-header">
-      <div>
-        <div class="modal-title" id="modalTitulo">amnesia<span>.sbs</span></div>
-        <div class="modal-subtitle" id="modal-subtitle">Aviso Legal & Política Anticopia — 2026</div>
-      </div>
-      <button class="modal-close" onclick="cerrarTerminos()" aria-label="Cerrar">✕</button>
-    </div>
-    <div class="modal-scan"></div>
-    <div class="modal-body">
-      <div class="modal-date" id="modal-date">Última actualización: 2026 · Jurisdicción: Costa Rica</div>
-      <div class="terms-section"><div class="terms-section-title" id="t1-title">1. Prohibición Absoluta de Uso</div><p class="terms-text" id="t1-text">Todo el contenido de este sitio web es propiedad exclusiva de Derek Arguedas. Queda terminantemente prohibido, sin autorización previa, expresa y por escrito del titular:</p><ul class="terms-list" id="t1-list"><li>Copiar o reproducir total o parcialmente el contenido</li><li>Distribuir, compartir o republicar el contenido</li><li>Modificar, adaptar o crear obras derivadas</li><li>Analizar, descompilar o reutilizar el código o algoritmos</li><li>Utilizar el contenido con fines comerciales, educativos o personales</li></ul></div>
-      <div class="terms-section"><div class="terms-section-title" id="t2-title">2. Ausencia de Licencia</div><p class="terms-text" id="t2-text">El acceso a este sitio no concede, bajo ninguna circunstancia, licencia o derecho alguno sobre el contenido. Todo derecho no expresamente otorgado queda estrictamente reservado.</p></div>
-      <div class="terms-section"><div class="terms-section-title" id="t3-title">3. Exención de Responsabilidad</div><p class="terms-text" id="t3-text">El contenido se proporciona "tal cual", sin garantías. El titular no se hace responsable por: pérdida de datos, fallos de seguridad, errores en el código, daños económicos o consecuencias derivadas del uso del sitio.</p></div>
-      <div class="terms-section"><div class="terms-section-title" id="t4-title">4. Acciones Legales</div><p class="terms-text" id="t4-text">Cualquier uso no autorizado dará lugar a reclamaciones civiles, solicitudes de retirada de contenido y acciones legales nacionales e internacionales.</p></div>
-      <div class="terms-section"><div class="terms-section-title" id="t5-title">5. Jurisdicción</div><p class="terms-text" id="t5-text">Este acuerdo se rige por las leyes de la República de Costa Rica. El uso continuado del sitio implica la aceptación plena y sin reservas de estas condiciones.</p></div>
-    </div>
-    <div class="modal-footer">
-      <span class="modal-footer-copy" id="modal-footer-copy">© 2026 Derek Arguedas — Todos los derechos reservados</span>
-      <button class="modal-accept" onclick="cerrarTerminos()" id="modal-accept-btn">Aceptar</button>
-    </div>
   </div>
 </div>
 
 <script>
-const i18n = {
-  es: {
-    tagline:'sistema de cifrado seguro', enter:'Ingresar',
-    eyebrow:'Herramienta de cifrado',
-    appTitle:'CIFRADOR MULTICAPA', appSubtitle:'AES-GCM + XOR + Sustitución',
-    tabEnc:'⬡ Cifrar', tabDec:'⬡ Descifrar', tabHist:'⬡ Historial', tabInfo:'⬡ Info',
-    encryptTitle:'Cifrar Mensaje', labelMsg:'Mensaje original:',
-    placeholderMsg:'Escribe tu mensaje secreto aquí...',
-    labelPw:'Contraseña de cifrado:', placeholderPw:'Usa una clave fuerte',
-    btnCifrar:'Generar Cifrado', btnCifrando:'Cifrando...',
-    decryptTitle:'Descifrar Mensaje', labelCipher:'Código JSON cifrado:',
-    labelPw2:'Contraseña de descifrado:', placeholderPw2:'Introduce la clave',
-    btnDescifrar:'Descifrar', btnDescifrando:'Descifrando...',
-    resultTitle:'⬡ Resultado', copy:'Copiar', copied:'¡Copiado!',
-    resultPlaceholder:'Los resultados aparecerán aquí...',
-    errorWrong:'Error: Contraseña incorrecta o formato inválido',
-    toastCopied:'Copiado al portapapeles', toastEncOk:'Mensaje cifrado correctamente',
-    toastDecOk:'Mensaje descifrado correctamente', toastError:'Error en el proceso',
-    toastFill:'Rellena todos los campos', toastCleared:'Campos limpiados',
-    clear:'LIMPIAR', chars:'chars',
-    strWeak:'MUY DÉBIL', strFair:'DÉBIL', strGood:'ACEPTABLE', strStrong:'FUERTE', strVeryStrong:'MUY FUERTE',
-    strTip1:'Añade mayúsculas', strTip2:'Añade números', strTip3:'Añade símbolos', strTip4:'Clave muy corta',
-    footerTerms:'Términos', footerStatus:'LOCAL · SEGURO',
-    histTitle:'Historial de Operaciones', histClear:'LIMPIAR',
-    histEmpty:'Sin operaciones registradas', histEnc:'CIFRADO', histDec:'DESCIFRADO',
-    infoTitle:'Cómo Funciona',
-    info1Title:'AES-GCM', info1Text:'Cifrado simétrico autenticado de 256 bits. Protege la integridad y confidencialidad del mensaje.',
-    info2Title:'XOR + Sustitución', info2Text:'Capas adicionales de ofuscación derivadas de la misma clave. Triple cifrado independiente.',
-    info3Title:'PBKDF2', info3Text:'100,000 iteraciones SHA-256 con salt aleatorio. Hace inviable el ataque por fuerza bruta.',
-    infoDisclaimer:'⚠ Todo el cifrado se ejecuta localmente en tu navegador. Ningún dato es enviado a servidores externos.',
-    kdfLabel:'DERIVANDO CLAVE...',
-    tabFile:'⬡ Archivo',
-    fileEncTitle:'Cifrar Archivo', fileDecTitle:'Descifrar Archivo',
-    fileDropLabel:'Arrastrá o hacé click para seleccionar',
-    fileDropSubEnc:'Cualquier tipo · Máx recomendado 50 MB',
-    fileDropSubDec:'Solo archivos .encrypted',
-    fileLabelPw:'Contraseña de cifrado:', fileLabelPw2:'Contraseña de descifrado:',
-    btnCifrarArchivo:'Cifrar y Descargar', btnCifrándoArchivo:'Cifrando...',
-    btnDescifrarArchivo:'Descifrar y Descargar', btnDescifrándoArchivo:'Descifrando...',
-    toastFileEncOk:'Archivo cifrado descargado', toastFileDecOk:'Archivo descifrado descargado',
-    toastNoFile:'Seleccioná un archivo', toastFileError:'Error al procesar el archivo',
-    fileProgressLabel:'PROCESANDO...',
-    modalSubtitle:'Aviso Legal & Política Anticopia — 2026',
-    modalDate:'Última actualización: 2026 · Jurisdicción: Costa Rica',
-    modalAccept:'Aceptar',
-    modalFooterCopy:'© 2026 Derek Arguedas — Todos los derechos reservados',
-  },
-  en: {
-    tagline:'secure encryption system', enter:'Enter',
-    eyebrow:'Encryption Tool',
-    appTitle:'MULTILAYER CIPHER', appSubtitle:'AES-GCM + XOR + Substitution',
-    tabEnc:'⬡ Encrypt', tabDec:'⬡ Decrypt', tabHist:'⬡ History', tabInfo:'⬡ Info',
-    encryptTitle:'Encrypt Message', labelMsg:'Original message:',
-    placeholderMsg:'Type your secret message here...',
-    labelPw:'Encryption password:', placeholderPw:'Use a strong key',
-    btnCifrar:'Generate Cipher', btnCifrando:'Encrypting...',
-    decryptTitle:'Decrypt Message', labelCipher:'Encrypted JSON code:',
-    labelPw2:'Decryption password:', placeholderPw2:'Enter the key',
-    btnDescifrar:'Decrypt', btnDescifrando:'Decrypting...',
-    resultTitle:'⬡ Result', copy:'Copy', copied:'Copied!',
-    resultPlaceholder:'Results will appear here...',
-    errorWrong:'Error: Wrong password or invalid format',
-    toastCopied:'Copied to clipboard', toastEncOk:'Message encrypted successfully',
-    toastDecOk:'Message decrypted successfully', toastError:'Process error',
-    toastFill:'Please fill in all fields', toastCleared:'Fields cleared',
-    clear:'CLEAR', chars:'chars',
-    strWeak:'VERY WEAK', strFair:'WEAK', strGood:'FAIR', strStrong:'STRONG', strVeryStrong:'VERY STRONG',
-    strTip1:'Add uppercase', strTip2:'Add numbers', strTip3:'Add symbols', strTip4:'Too short',
-    footerTerms:'Terms', footerStatus:'LOCAL · SECURE',
-    histTitle:'Operation History', histClear:'CLEAR',
-    histEmpty:'No operations recorded', histEnc:'ENCRYPTED', histDec:'DECRYPTED',
-    infoTitle:'How It Works',
-    info1Title:'AES-GCM', info1Text:'256-bit authenticated symmetric encryption. Protects message integrity and confidentiality.',
-    info2Title:'XOR + Substitution', info2Text:'Additional obfuscation layers derived from the same key. Triple independent encryption.',
-    info3Title:'PBKDF2', info3Text:'100,000 SHA-256 iterations with random salt. Makes brute force attacks infeasible.',
-    infoDisclaimer:'⚠ All encryption runs locally in your browser. No data is sent to external servers.',
-    kdfLabel:'DERIVING KEY...',
-    tabFile:'⬡ File',
-    fileEncTitle:'Encrypt File', fileDecTitle:'Decrypt File',
-    fileDropLabel:'Drag or click to select',
-    fileDropSubEnc:'Any type · Max recommended 50 MB',
-    fileDropSubDec:'.encrypted files only',
-    fileLabelPw:'Encryption password:', fileLabelPw2:'Decryption password:',
-    btnCifrarArchivo:'Encrypt & Download', btnCifrándoArchivo:'Encrypting...',
-    btnDescifrarArchivo:'Decrypt & Download', btnDescifrándoArchivo:'Decrypting...',
-    toastFileEncOk:'Encrypted file downloaded', toastFileDecOk:'Decrypted file downloaded',
-    toastNoFile:'Please select a file', toastFileError:'Error processing file',
-    fileProgressLabel:'PROCESSING...',
-    modalSubtitle:'Legal Notice & Anti-Copy Policy — 2026',
-    modalDate:'Last updated: 2026 · Jurisdiction: Costa Rica',
-    modalAccept:'Accept',
-    modalFooterCopy:'© 2026 Derek Arguedas — All rights reserved',
+  // Global Scope Assignments
+  let historyData = [];
+
+  function entrar() {
+    document.getElementById('splash').classList.add('out');
+    setTimeout(() => {
+      document.getElementById('app').classList.add('visible');
+    }, 400);
   }
-};
 
-let currentLang = 'es';
-let history = [];
+  function setLang(lang) {
+    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  }
 
-function setLang(lang) {
-  currentLang = lang;
-  const t = i18n[lang];
-  document.documentElement.lang = lang;
-  document.getElementById('splash-tagline').innerText = t.tagline;
-  document.getElementById('splash-enter-label').innerText = t.enter;
-  document.getElementById('app-eyebrow').innerText = t.eyebrow;
-  document.getElementById('app-title').innerText = t.appTitle;
-  document.getElementById('app-subtitle').innerText = t.appSubtitle;
-  document.getElementById('tab-enc').innerText = t.tabEnc;
-  document.getElementById('tab-dec').innerText = t.tabDec;
-  document.getElementById('tab-hist').innerText = t.tabHist;
-  document.getElementById('tab-info').innerText = t.tabInfo;
-  document.getElementById('card-encrypt-title').innerText = t.encryptTitle;
-  document.getElementById('label-msg').children[0].innerText = t.labelMsg;
-  document.getElementById('mensaje').placeholder = t.placeholderMsg;
-  document.getElementById('label-pw').children[0].innerText = t.labelPw;
-  document.getElementById('password').placeholder = t.placeholderPw;
-  document.getElementById('btn-cifrar-text').textContent = t.btnCifrar;
-  document.getElementById('card-decrypt-title').innerText = t.decryptTitle;
-  document.getElementById('label-cipher').innerText = t.labelCipher;
-  document.getElementById('label-pw2').children[0].innerText = t.labelPw2;
-  document.getElementById('passwordDescifrar').placeholder = t.placeholderPw2;
-  document.getElementById('btn-descifrar-text').textContent = t.btnDescifrar;
-  document.getElementById('btn-copy-enc').innerText = t.copy;
-  document.getElementById('btn-copy-dec').innerText = t.copy;
-  document.getElementById('btn-clear-enc').innerText = t.clear;
-  document.getElementById('btn-clear-dec').innerText = t.clear;
-  document.getElementById('hist-title').innerText = t.histTitle;
-  document.getElementById('hist-clear-btn').innerText = t.histClear;
-  document.getElementById('info-title').innerText = t.infoTitle;
-  document.getElementById('info1-title').innerText = t.info1Title;
-  document.getElementById('info1-text').innerText = t.info1Text;
-  document.getElementById('info2-title').innerText = t.info2Title;
-  document.getElementById('info2-text').innerText = t.info2Text;
-  document.getElementById('info3-title').innerText = t.info3Title;
-  document.getElementById('info3-text').innerText = t.info3Text;
-  document.getElementById('info-disclaimer').innerText = t.infoDisclaimer;
-  document.getElementById('kdf-enc-label').innerText = t.kdfLabel;
-  document.getElementById('kdf-dec-label').innerText = t.kdfLabel;
-  document.getElementById('footer-terms-btn').innerText = t.footerTerms;
-  document.getElementById('footer-status-text').innerText = t.footerStatus;
-  document.getElementById('modal-subtitle').innerText = t.modalSubtitle;
-  document.getElementById('modal-date').innerText = t.modalDate;
-  document.getElementById('modal-accept-btn').innerText = t.modalAccept;
-  document.getElementById('modal-footer-copy').innerText = t.modalFooterCopy;
-  ['resultado-enc','resultado-dec'].forEach(id => {
+  function switchTab(tab) {
+    const tabs = ['encrypt', 'decrypt', 'history', 'info'];
+    tabs.forEach(t => {
+      const panel = document.getElementById(`panel-${t}`);
+      const btn = document.getElementById(`tab-${t === 'encrypt' ? 'enc' : t === 'decrypt' ? 'dec' : t === 'history' ? 'hist' : 'info'}`);
+      if (panel) panel.classList.toggle('active', t === tab);
+      if (btn) btn.classList.toggle('active', t === tab);
+    });
+  }
+
+  function updateCharCount() {
+    const text = document.getElementById('mensaje').value;
+    document.getElementById('char-count').innerText = `${text.length} chars`;
+  }
+
+  function togglePw(id, btn) {
+    const input = document.getElementById(id);
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.style.color = 'var(--primary)';
+    } else {
+      input.type = 'password';
+      btn.style.color = 'var(--text-dim)';
+    }
+  }
+
+  function checkStrength(val, targetId) {
+    const bar = document.getElementById(targetId);
+    const label = document.getElementById(`${targetId}-label`);
+    if (!bar) return;
+
+    let score = 0;
+    if (val.length > 7) score += 25;
+    if (/[A-Z]/.test(val)) score += 25;
+    if (/[0-9]/.test(val)) score += 25;
+    if (/[^A-Za-z0-9]/.test(val)) score += 25;
+
+    bar.style.width = score + '%';
+    if (score <= 25) {
+      bar.style.background = 'var(--red)';
+      if (label) label.innerText = 'DEBIL';
+    } else if (score <= 75) {
+      bar.style.background = 'var(--amber)';
+      if (label) label.innerText = 'MEDIA';
+    } else {
+      bar.style.background = 'var(--green)';
+      if (label) label.innerText = 'FUERTE';
+    }
+  }
+
+  async function getKey(password, salt) {
+    const enc = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey(
+      "raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]
+    );
+    return crypto.subtle.deriveKey(
+      {
+        name: "PBKDF2",
+        salt: salt,
+        iterations: 100000,
+        hash: "SHA-256"
+      },
+      keyMaterial,
+      { name: "AES-GCM", length: 256 },
+      false,
+      ["encrypt", "decrypt"]
+    );
+  }
+
+  async function cifrar() {
+    const msg = document.getElementById('mensaje').value;
+    const pw = document.getElementById('password').value;
+    const out = document.getElementById('resultado-enc');
+
+    if (!msg || !pw) {
+      showToast('Por favor ingresa un mensaje y contraseña', 'error');
+      return;
+    }
+
+    try {
+      const enc = new TextEncoder();
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const key = await getKey(pw, salt);
+
+      const encrypted = await crypto.subtle.encrypt(
+        { name: "AES-GCM", iv: iv },
+        key,
+        enc.encode(msg)
+      );
+
+      const buffer = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+      buffer.set(salt, 0);
+      buffer.set(iv, salt.length);
+      buffer.set(new Uint8Array(encrypted), salt.length + iv.length);
+
+      const resultBase64 = btoa(String.fromCharCode(...buffer));
+      out.innerText = resultBase64;
+      out.classList.remove('placeholder', 'error');
+      
+      addHistory('enc', msg);
+      showToast('Mensaje cifrado con éxito', 'success');
+    } catch (e) {
+      out.innerText = 'Error al cifrar el mensaje.';
+      out.classList.add('error');
+      showToast('Error durante el proceso de cifrado', 'error');
+    }
+  }
+
+  async function descifrar() {
+    const cipherText = document.getElementById('mensaje-cifrado').value;
+    const pw = document.getElementById('password-dec').value;
+    const out = document.getElementById('resultado-dec');
+
+    if (!cipherText || !pw) {
+      showToast('Ingresa el texto cifrado y la clave', 'error');
+      return;
+    }
+
+    try {
+      const data = Uint8Array.from(atob(cipherText), c => c.charCodeAt(0));
+      const salt = data.slice(0, 16);
+      const iv = data.slice(16, 28);
+      const encryptedData = data.slice(28);
+
+      const key = await getKey(pw, salt);
+      const decrypted = await crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: iv },
+        key,
+        encryptedData
+      );
+
+      const dec = new TextDecoder();
+      const resultText = dec.decode(decrypted);
+
+      out.innerText = resultText;
+      out.classList.remove('placeholder', 'error');
+      
+      addHistory('dec', resultText);
+      showToast('Mensaje descifrado correctamente', 'success');
+    } catch (e) {
+      out.innerText = 'Clave incorrecta o texto corrupto.';
+      out.classList.add('error');
+      showToast('Fallo al descifrar', 'error');
+    }
+  }
+
+  function clearEncrypt() {
+    document.getElementById('mensaje').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('resultado-enc').innerText = 'El texto cifrado aparecerá aquí...';
+    document.getElementById('resultado-enc').classList.add('placeholder');
+    updateCharCount();
+  }
+
+  function clearDecrypt() {
+    document.getElementById('mensaje-cifrado').value = '';
+    document.getElementById('password-dec').value = '';
+    document.getElementById('resultado-dec').innerText = 'El texto descifrado aparecerá aquí...';
+    document.getElementById('resultado-dec').classList.add('placeholder');
+  }
+
+  function copyOutput(id) {
     const el = document.getElementById(id);
-    if (el.classList.contains('placeholder')) el.innerText = t.resultPlaceholder;
-  });
-  document.getElementById('tab-file').innerText = t.tabFile;
-  document.getElementById('file-enc-title').innerText = t.fileEncTitle;
-  document.getElementById('file-dec-title').innerText = t.fileDecTitle;
-  document.getElementById('file-drop-label-enc').innerText = t.fileDropLabel;
-  document.getElementById('file-drop-sub-enc').innerText = t.fileDropSubEnc;
-  document.getElementById('file-drop-label-dec').innerText = t.fileDropLabel;
-  document.getElementById('file-drop-sub-dec').innerText = t.fileDropSubDec;
-  document.getElementById('file-label-pw').children[0].innerText = t.fileLabelPw;
-  document.getElementById('file-label-pw2').children[0].innerText = t.fileLabelPw2;
-  document.getElementById('btn-cifrar-archivo-text').textContent = t.btnCifrarArchivo;
-  document.getElementById('btn-descifrar-archivo-text').textContent = t.btnDescifrarArchivo;
-  document.getElementById('file-progress-enc-label').innerText = t.fileProgressLabel;
-  document.getElementById('file-progress-dec-label').innerText = t.fileProgressLabel;
-  document.getElementById('btn-clear-file-enc').innerText = t.clear;
-  document.getElementById('btn-clear-file-dec').innerText = t.clear;
-  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  updateCharCount();
-  renderHistory();
-}
-
-function switchTab(tab) {
-  ['encrypt','decrypt','history','info','file'].forEach(t => {
-    document.getElementById('panel-'+t).classList.toggle('active', t === tab);
-    const btnId = t==='encrypt'?'enc':t==='decrypt'?'dec':t==='history'?'hist':t==='info'?'info':'file';
-    document.getElementById('tab-'+btnId).classList.toggle('active', t === tab);
-  });
-  if (tab === 'history') renderHistory();
-}
-
-function addHistory(type, preview, output) {
-  history.unshift({ type, preview, output, time: new Date() });
-  if (history.length > 20) history.pop();
-}
-
-function renderHistory() {
-  const t = i18n[currentLang];
-  const list = document.getElementById('history-list');
-  if (!history.length) {
-    list.innerHTML = `<div class="history-empty">${t.histEmpty}</div>`;
-    return;
+    if (!el || el.classList.contains('placeholder')) return;
+    navigator.clipboard.writeText(el.innerText).then(() => {
+      showToast('Copiado al portapapeles', 'info');
+    });
   }
-  list.innerHTML = history.map((h, i) => {
-    const badge = h.type === 'enc' ? `<span class="history-badge enc">${t.histEnc}</span>` : `<span class="history-badge dec">${t.histDec}</span>`;
-    const preview = h.preview.length > 42 ? h.preview.slice(0, 42) + '…' : h.preview;
-    const time = h.time.toLocaleTimeString(currentLang, {hour:'2-digit',minute:'2-digit'});
-    return `<div class="history-item" onclick="loadHistory(${i})">${badge}<span class="history-preview">${preview}</span><span class="history-time">${time}</span></div>`;
-  }).join('');
-}
 
-function loadHistory(idx) {
-  const h = history[idx];
-  const outId = h.type === 'enc' ? 'resultado-enc' : 'resultado-dec';
-  const out = document.getElementById(outId);
-  out.innerText = h.output;
-  out.className = 'output';
-  switchTab(h.type === 'enc' ? 'encrypt' : 'decrypt');
-  showToast(i18n[currentLang].toastCopied, 'info');
-}
-
-function clearHistory() {
-  history = [];
-  renderHistory();
-  showToast(i18n[currentLang].toastCleared, 'info');
-}
-
-function entrar() {
-  const s = document.getElementById('splash');
-  s.classList.add('out');
-  setTimeout(() => {
-    s.style.display = 'none';
-    document.getElementById('app').classList.add('visible');
-    document.getElementById('mainFooter').style.display = 'flex';
-  }, 500);
-}
-
-function abrirTerminos() {
-  document.getElementById('modalTerminos').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function cerrarTerminos() {
-  document.getElementById('modalTerminos').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function cerrarSiOverlay(e) { if (e.target === document.getElementById('modalTerminos')) cerrarTerminos(); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarTerminos(); });
-
-function showToast(msg, type='info') {
-  const c = document.getElementById('toast-container');
-  const t = document.createElement('div');
-  t.className = `toast ${type}`;
-  t.innerHTML = `<div class="toast-dot"></div><span>${msg}</span>`;
-  c.appendChild(t);
-  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
-  setTimeout(() => { t.classList.remove('show'); t.classList.add('hide'); setTimeout(() => t.remove(), 350); }, 2600);
-}
-
-function togglePw(id, btn) {
-  const input = document.getElementById(id);
-  const hidden = input.type === 'password';
-  input.type = hidden ? 'text' : 'password';
-  btn.querySelector('svg').innerHTML = hidden
-    ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`
-    : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
-}
-
-function checkStrength(pw, barId) {
-  const t = i18n[currentLang];
-  const bar = document.getElementById(barId);
-  const label = document.getElementById(barId + '-label');
-  const tips = document.getElementById(barId + '-tips');
-  if (!pw) { bar.style.width='0%'; label.innerText=''; if(tips) tips.innerText=''; return; }
-  let score = 0; const missing = [];
-  if (pw.length < 8) { missing.push(t.strTip4); } else score++;
-  if (pw.length >= 14) score++;
-  if (/[A-Z]/.test(pw)) score++; else missing.push(t.strTip1);
-  if (/[0-9]/.test(pw)) score++; else missing.push(t.strTip2);
-  if (/[^A-Za-z0-9]/.test(pw)) score++; else missing.push(t.strTip3);
-  const levels = [
-    {w:'16%',  color:'#ff4d6a', text:t.strWeak},
-    {w:'32%',  color:'#f97316', text:t.strFair},
-    {w:'54%',  color:'#f5a623', text:t.strGood},
-    {w:'76%',  color:'#84cc16', text:t.strStrong},
-    {w:'100%', color:'#00d9a3', text:t.strVeryStrong},
-  ];
-  const l = levels[Math.min(score, 4)];
-  bar.style.width = l.w; bar.style.background = l.color;
-  label.style.color = l.color; label.innerText = l.text;
-  if (tips) { tips.style.color = 'rgba(232,237,245,0.25)'; tips.innerText = missing.slice(0,2).join(' · '); }
-}
-
-function updateCharCount() {
-  const len = document.getElementById('mensaje').value.length;
-  const el = document.getElementById('char-count');
-  el.innerText = `${len} ${i18n[currentLang].chars}`;
-  el.style.color = len > 5000 ? 'var(--amber)' : 'var(--text-dim)';
-}
-
-function clearEncrypt() {
-  document.getElementById('mensaje').value = '';
-  document.getElementById('password').value = '';
-  document.getElementById('strength-enc').style.width = '0%';
-  document.getElementById('strength-enc-label').innerText = '';
-  document.getElementById('strength-enc-tips').innerText = '';
-  updateCharCount();
-  showToast(i18n[currentLang].toastCleared, 'info');
-}
-function clearDecrypt() {
-  document.getElementById('mensajeCifrado').value = '';
-  document.getElementById('passwordDescifrar').value = '';
-  document.getElementById('strength-dec').style.width = '0%';
-  document.getElementById('strength-dec-label').innerText = '';
-  showToast(i18n[currentLang].toastCleared, 'info');
-}
-function clearOutput(id) {
-  const el = document.getElementById(id);
-  el.innerText = i18n[currentLang].resultPlaceholder;
-  el.className = 'output placeholder';
-}
-
-function copiar(outputId, btnId) {
-  const el = document.getElementById(outputId);
-  if (el.classList.contains('placeholder')) return;
-  navigator.clipboard.writeText(el.innerText);
-  const btn = document.getElementById(btnId);
-  const t = i18n[currentLang];
-  btn.innerText = t.copied;
-  showToast(t.toastCopied, 'success');
-  setTimeout(() => btn.innerText = t.copy, 2000);
-}
-
-function animateKdf(barId, wrapId) {
-  const bar = document.getElementById(barId);
-  const wrap = document.getElementById(wrapId);
-  wrap.classList.add('visible');
-  bar.style.width = '0%';
-  let prog = 0;
-  const interval = setInterval(() => {
-    prog += Math.random() * 4;
-    if (prog >= 95) prog = 95;
-    bar.style.width = prog + '%';
-  }, 80);
-  return { interval, bar, wrap };
-}
-function finishKdf({interval, bar, wrap}) {
-  clearInterval(interval);
-  bar.style.width = '100%';
-  setTimeout(() => { wrap.classList.remove('visible'); bar.style.width = '0%'; }, 400);
-}
-
-function setLoading(btnId, textEl, loading, textNormal, textLoading) {
-  const btn = document.getElementById(btnId);
-  btn.disabled = loading;
-  btn.classList.toggle('loading', loading);
-  document.getElementById(textEl).textContent = loading ? textLoading : textNormal;
-}
-
-const a2b = a => btoa(String.fromCharCode.apply(null, a));
-const b2a = b => Uint8Array.from(atob(b), c => c.charCodeAt(0));
-const xorFn = (d,k) => { let o=new Uint8Array(d.length); for(let i=0;i<d.length;i++) o[i]=d[i]^k[i%k.length]; return o; };
-const sub   = (d,k) => { let o=new Uint8Array(d.length); for(let i=0;i<d.length;i++) o[i]=(d[i]+k[i%k.length])%256; return o; };
-const unsub = (d,k) => { let o=new Uint8Array(d.length); for(let i=0;i<d.length;i++) o[i]=(d[i]-k[i%k.length]+256)%256; return o; };
-
-async function derivarClave(pw, salt, len=32) {
-  const km = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), {name:"PBKDF2"}, false, ["deriveBits"]);
-  return new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2", salt, iterations:100000, hash:"SHA-256"}, km, len*8));
-}
-async function cifrarAES(data, key) {
-  const iv = crypto.getRandomValues(new Uint8Array(12));
-  const ck = await crypto.subtle.importKey("raw", key, "AES-GCM", false, ["encrypt"]);
-  return {iv, datos: new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM", iv}, ck, data))};
-}
-async function descifrarAES(datos, key, iv) {
-  const ck = await crypto.subtle.importKey("raw", key, "AES-GCM", false, ["decrypt"]);
-  return new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM", iv}, ck, datos));
-}
-
-async function cifrar() {
-  const t = i18n[currentLang];
-  const msg = document.getElementById("mensaje").value;
-  const pw  = document.getElementById("password").value;
-  if (!msg || !pw) { showToast(t.toastFill, 'error'); return; }
-  setLoading('btn-cifrar', 'btn-cifrar-text', true, t.btnCifrar, t.btnCifrando);
-  const kdf = animateKdf('kdf-enc-bar', 'kdf-enc-wrap');
-  try {
-    let d = new TextEncoder().encode(msg);
-    const salt = crypto.getRandomValues(new Uint8Array(16));
-    const clave = await derivarClave(pw, salt);
-    finishKdf(kdf);
-    d = xorFn(d, clave); d = sub(d, clave);
-    const aes = await cifrarAES(d, clave);
-    const output = JSON.stringify({salt:a2b(salt), iv:a2b(aes.iv), datos:a2b(aes.datos)}, null, 2);
-    const res = document.getElementById("resultado-enc");
-    res.innerText = output; res.className = 'output';
-    addHistory('enc', msg.slice(0, 60), output);
-    showToast(t.toastEncOk, 'success');
-  } catch(e) {
-    finishKdf(kdf);
-    const res = document.getElementById("resultado-enc");
-    res.innerText = "Error: " + e.message; res.className = 'output error';
-    showToast(t.toastError, 'error');
-  } finally { setLoading('btn-cifrar', 'btn-cifrar-text', false, t.btnCifrar, t.btnCifrando); }
-}
-
-async function descifrar() {
-  const t = i18n[currentLang];
-  const pw  = document.getElementById("passwordDescifrar").value;
-  const inp = document.getElementById("mensajeCifrado").value.trim();
-  if (!pw || !inp) { showToast(t.toastFill, 'error'); return; }
-  setLoading('btn-descifrar', 'btn-descifrar-text', true, t.btnDescifrar, t.btnDescifrando);
-  const kdf = animateKdf('kdf-dec-bar', 'kdf-dec-wrap');
-  try {
-    const p = JSON.parse(inp);
-    const clave = await derivarClave(pw, b2a(p.salt));
-    finishKdf(kdf);
-    let d = await descifrarAES(b2a(p.datos), clave, b2a(p.iv));
-    d = unsub(d, clave); d = xorFn(d, clave);
-    const decoded = new TextDecoder().decode(d);
-    const res = document.getElementById("resultado-dec");
-    res.innerText = decoded; res.className = 'output';
-    addHistory('dec', decoded.slice(0, 60), decoded);
-    showToast(t.toastDecOk, 'success');
-  } catch(e) {
-    finishKdf(kdf);
-    const res = document.getElementById("resultado-dec");
-    res.innerText = t.errorWrong; res.className = 'output error';
-    showToast(t.toastError, 'error');
-  } finally { setLoading('btn-descifrar', 'btn-descifrar-text', false, t.btnDescifrar, t.btnDescifrando); }
-}
-
-let selectedFileEnc = null;
-let selectedFileDec = null;
-
-function fmtSize(bytes) {
-  if (bytes < 1024) return bytes + ' B';
-  if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
-  return (bytes/1048576).toFixed(1) + ' MB';
-}
-
-function fileSelected(input, side) {
-  const file = input.files[0];
-  if (!file) return;
-  if (side === 'enc') { selectedFileEnc = file; showFileInfo('enc', file); }
-  else { selectedFileDec = file; showFileInfo('dec', file); }
-}
-
-function showFileInfo(side, file) {
-  document.getElementById('file-info-' + side).classList.add('visible');
-  document.getElementById('file-name-' + side).textContent = file.name;
-  document.getElementById('file-size-' + side).textContent = fmtSize(file.size);
-}
-
-function fileDragOver(e, side) {
-  e.preventDefault();
-  document.getElementById('file-drop-' + side).classList.add('drag');
-}
-function fileDragLeave(side) {
-  document.getElementById('file-drop-' + side).classList.remove('drag');
-}
-function fileDrop(e, side) {
-  e.preventDefault();
-  document.getElementById('file-drop-' + side).classList.remove('drag');
-  const file = e.dataTransfer.files[0];
-  if (!file) return;
-  if (side === 'enc') { selectedFileEnc = file; showFileInfo('enc', file); }
-  else { selectedFileDec = file; showFileInfo('dec', file); }
-}
-
-function clearFileEncrypt() {
-  selectedFileEnc = null;
-  document.getElementById('file-input-enc').value = '';
-  document.getElementById('file-info-enc').classList.remove('visible');
-  document.getElementById('file-password-enc').value = '';
-  document.getElementById('strength-file-enc').style.width = '0%';
-  document.getElementById('strength-file-enc-label').innerText = '';
-  document.getElementById('strength-file-enc-tips').innerText = '';
-  showToast(i18n[currentLang].toastCleared, 'info');
-}
-function clearFileDecrypt() {
-  selectedFileDec = null;
-  document.getElementById('file-input-dec').value = '';
-  document.getElementById('file-info-dec').classList.remove('visible');
-  document.getElementById('file-password-dec').value = '';
-  document.getElementById('strength-file-dec').style.width = '0%';
-  document.getElementById('strength-file-dec-label').innerText = '';
-  showToast(i18n[currentLang].toastCleared, 'info');
-}
-
-function animateFileProgress(barId, wrapId, labelId) {
-  const bar = document.getElementById(barId);
-  const wrap = document.getElementById(wrapId);
-  wrap.classList.add('visible');
-  bar.style.width = '0%';
-  let prog = 0;
-  const interval = setInterval(() => {
-    prog += Math.random() * 5;
-    if (prog >= 90) prog = 90;
-    bar.style.width = prog + '%';
-  }, 60);
-  return { interval, bar, wrap };
-}
-function finishFileProgress({ interval, bar, wrap }) {
-  clearInterval(interval);
-  bar.style.width = '100%';
-  setTimeout(() => { wrap.classList.remove('visible'); bar.style.width = '0%'; }, 400);
-}
-
-function downloadBlob(data, filename) {
-  const url = URL.createObjectURL(new Blob([data]));
-  const a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click();
-  setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 500);
-}
-
-async function cifrarArchivo() {
-  const t = i18n[currentLang];
-  const pw = document.getElementById('file-password-enc').value;
-  if (!selectedFileEnc) { showToast(t.toastNoFile, 'error'); return; }
-  if (!pw) { showToast(t.toastFill, 'error'); return; }
-
-  const btn = document.getElementById('btn-cifrar-archivo');
-  btn.disabled = true; btn.classList.add('loading');
-  document.getElementById('btn-cifrar-archivo-text').textContent = t.btnCifrándoArchivo;
-  const prog = animateFileProgress('file-progress-enc-bar', 'file-progress-enc-wrap', 'file-progress-enc-label');
-
-  try {
-    const fileData = new Uint8Array(await selectedFileEnc.arrayBuffer());
-    const salt = crypto.getRandomValues(new Uint8Array(16));
-    const clave = await derivarClave(pw, salt);
-    // Same triple-layer as text: XOR → sub → AES-GCM
-    let d = xorFn(fileData, clave);
-    d = sub(d, clave);
-    const aes = await cifrarAES(d, clave);
-    finishFileProgress(prog);
-
-    const nameBytes = new TextEncoder().encode(selectedFileEnc.name);
-    const nameLen = nameBytes.length;
-    const header = new Uint8Array(4 + 16 + 12 + 2 + nameLen);
-    header.set([0x41,0x4D,0x4E,0x53], 0); // AMNS magic
-    header.set(salt, 4);
-    header.set(aes.iv, 20);
-    header[32] = (nameLen >> 8) & 0xff;
-    header[33] = nameLen & 0xff;
-    header.set(nameBytes, 34);
-
-    const out = new Uint8Array(header.length + aes.datos.length);
-    out.set(header); out.set(aes.datos, header.length);
-
-    downloadBlob(out, selectedFileEnc.name + '.encrypted');
-    showToast(t.toastFileEncOk, 'success');
-  } catch(e) {
-    finishFileProgress(prog);
-    showToast(t.toastFileError, 'error');
-    console.error(e);
-  } finally {
-    btn.disabled = false; btn.classList.remove('loading');
-    document.getElementById('btn-cifrar-archivo-text').textContent = t.btnCifrarArchivo;
+  function addHistory(type, text) {
+    historyData.unshift({ type, text, time: new Date().toLocaleTimeString() });
+    renderHistory();
   }
-}
 
-async function descifrarArchivo() {
-  const t = i18n[currentLang];
-  const pw = document.getElementById('file-password-dec').value;
-  if (!selectedFileDec) { showToast(t.toastNoFile, 'error'); return; }
-  if (!pw) { showToast(t.toastFill, 'error'); return; }
-
-  const btn = document.getElementById('btn-descifrar-archivo');
-  btn.disabled = true; btn.classList.add('loading');
-  document.getElementById('btn-descifrar-archivo-text').textContent = t.btnDescifrándoArchivo;
-  const prog = animateFileProgress('file-progress-dec-bar', 'file-progress-dec-wrap', 'file-progress-dec-label');
-
-  try {
-    const raw = new Uint8Array(await selectedFileDec.arrayBuffer());
-    if (raw[0]!==0x41||raw[1]!==0x4D||raw[2]!==0x4E||raw[3]!==0x53) throw new Error('Formato inválido');
-    const salt = raw.slice(4, 20);
-    const iv   = raw.slice(20, 32);
-    const nameLen = (raw[32] << 8) | raw[33];
-    const origName = new TextDecoder().decode(raw.slice(34, 34 + nameLen));
-    const cipherData = raw.slice(34 + nameLen);
-
-    const clave = await derivarClave(pw, salt);
-    finishFileProgress(prog);
-
-    let d = await descifrarAES(cipherData, clave, iv);
-    d = unsub(d, clave);
-    d = xorFn(d, clave);
-
-    downloadBlob(d, origName);
-    showToast(t.toastFileDecOk, 'success');
-  } catch(e) {
-    finishFileProgress(prog);
-    showToast(t.toastFileError + (e.message.includes('inválido') ? '' : ' · ' + t.errorWrong.split(':')[1]?.trim() || ''), 'error');
-    console.error(e);
-  } finally {
-    btn.disabled = false; btn.classList.remove('loading');
-    document.getElementById('btn-descifrar-archivo-text').textContent = t.btnDescifrarArchivo;
+  function clearHistory() {
+    historyData = [];
+    renderHistory();
   }
-}
 
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-    const active = document.querySelector('.tab-panel.active');
-    if (active.id === 'panel-encrypt') cifrar();
-    else if (active.id === 'panel-decrypt') descifrar();
+  function renderHistory() {
+    const list = document.getElementById('history-list');
+    if (!historyData.length) {
+      list.innerHTML = '<div class="history-empty">NO HAY REGISTROS EN EL HISTORIAL</div>';
+      return;
+    }
+    list.innerHTML = historyData.map(item => `
+      <div class="history-item">
+        <span class="history-badge ${item.type}">${item.type === 'enc' ? 'CIFRADO' : 'DESCIFRADO'}</span>
+        <span class="history-preview">${item.text}</span>
+        <span class="history-time">${item.time}</span>
+      </div>
+    `).join('');
   }
-});
+
+  function showToast(msg, type = 'info') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<div class="toast-dot"></div><span>${msg}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 2500);
+  }
 </script>
 </body>
 </html>
